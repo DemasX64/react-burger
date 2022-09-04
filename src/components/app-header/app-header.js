@@ -6,25 +6,34 @@ import NavItem from '../nav-item/nav-item';
 class AppHeader extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { current: 1 };
+        this.state = { currentPage: 1 };
+        this.PAGES = {
+            CONSTRUCTOR: 1,
+            ORDERS: 2,
+            PROFILE: 3,
+        }
     }
 
-    setCurrent = (value) => {
-        this.setState({current:value})
+    setCurrentPage = (value) => {
+        this.setState({currentPage:value})
     }
 
     render() { 
+        const isConstructorActive = this.state.currentPage===this.PAGES.CONSTRUCTOR;
+        const isOrdersActive = this.state.currentPage===this.PAGES.ORDERS;
+        const isProfileActive = this.state.currentPage===this.PAGES.PROFILE;
+
         return ( 
-            <header className={`ml-10 mt-10 mr-10 ${styles.header}`}>
+            <header className={styles.header}>
                 <div className={styles.container}>
                     <div className={styles.logo}>
                         <Logo/>
                     </div>
                     <nav className={styles.nav}>
-                        <NavItem title="Конструктор"value={1} active={this.state.current===1} onClick={this.setCurrent}><BurgerIcon type={this.state.current===1?"primary":'secondary'} /></NavItem>
-                        <NavItem title="Лента заказов" value={2} active={this.state.current===2} onClick={this.setCurrent}><ListIcon type={this.state.current===2?"primary":'secondary'} /></NavItem>
-                        <div style={{flex:1}}></div>
-                        <NavItem title="Личный кабинет" value={3} active={this.state.current===3}onClick={this.setCurrent}><ProfileIcon type={this.state.current===3?"primary":'secondary'} /></NavItem>
+                        <NavItem title="Конструктор"value={this.PAGES.CONSTRUCTOR} active={isConstructorActive} onClick={this.setCurrentPage}><BurgerIcon type={isConstructorActive?"primary":'secondary'} /></NavItem>
+                        <NavItem title="Лента заказов" value={this.PAGES.ORDERS} active={isOrdersActive} onClick={this.setCurrentPage}><ListIcon type={isOrdersActive?"primary":'secondary'} /></NavItem>
+                        <div className={styles.filler}></div>
+                        <NavItem title="Личный кабинет" value={this.PAGES.PROFILE} active={isProfileActive} onClick={this.setCurrentPage}><ProfileIcon type={isProfileActive?"primary":'secondary'} /></NavItem>
                     </nav>
                 </div>
             </header>

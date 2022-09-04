@@ -2,6 +2,7 @@
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react'
 import styles from './burger-ingredient.module.css'
+import PropTypes from 'prop-types';
 
 class BurgerIngredient  extends React.Component {
     constructor(props) {
@@ -12,8 +13,8 @@ class BurgerIngredient  extends React.Component {
     render() { 
         return (  
             <li className={styles.ingredient}>
-                {this.state.count!==0? <Counter count={this.state.count} size="default"/>:<></>}
-                <img src={this.props.image} alt=''/>
+                {this.state.count!==0 && <Counter count={this.state.count} size="default"/>}
+                <img src={this.props.image} alt={this.props.name}/>
                 <div className={`mt-1 ${styles.price}`}>
                     <p className="mr-2 text text_type_digits-default">{this.props.price}</p>
                     <CurrencyIcon type="primary" />
@@ -23,5 +24,11 @@ class BurgerIngredient  extends React.Component {
         );
     }
 }
- 
+
+BurgerIngredient.propTypes = {
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+}
+
 export default BurgerIngredient ;

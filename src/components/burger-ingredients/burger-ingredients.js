@@ -5,39 +5,36 @@ import data from '../../utils/data.json';
 import styles from './burger-ingredients.module.css'
 
 class BurgerIngredients extends React.Component {
-    state = {current:'Булки',main:[],sauce:[],bun:[]};
     constructor(props) {
         super(props);
-        data.map((ingredient) => {
-            if(ingredient.type==='main'){
-                this.state = ({...this.state,main:[...this.state.main,ingredient]})
-            }
-            if(ingredient.type==='bun'){
-                this.state = ({...this.state,bun:[...this.state.bun,ingredient]})
-            }
-            if(ingredient.type==='sauce'){
-                this.state = ({...this.state,sauce:[...this.state.sauce,ingredient]})
-            }
-        })
+        this.state = {
+            currentTab:'Булки',
+            main: data.filter((ingredient) => ingredient.type==='main'),
+            bun: data.filter((ingredient) => ingredient.type==='bun'),
+            sauce: data.filter((ingredient) => ingredient.type==='sauce'),
+        }
     }
     
-     setCurrent = (value) => {
-         this.setState({...this.state,current:value})
+     setCurrentTab = (value) => {
+         this.setState({...this.state,currentTab:value})
     }
 
     render() { 
+        const isBunActive = this.state.currentTab === 'Булки';
+        const isMainActive = this.state.currentTab === 'Начинки';
+        const isSauceActive = this.state.currentTab === 'Соусы';
         return (
             <section className={styles.container}>
                 <p className="text text_type_main-large mt-10">Соберите бургер</p>
                 <div className={`mt-5 ${styles.nav}`}>
                     <a href='#bun' className={styles.anchor}>
-                        <Tab value="Булки" active={this.state.current === 'Булки'} onClick={this.setCurrent}>Булки</Tab>
+                        <Tab value="Булки" active={isBunActive} onClick={this.setCurrentTab}>Булки</Tab>
                     </a>
                     <a href='#sauce' className={styles.anchor}>
-                        <Tab value="Соусы" active={this.state.current === 'Соусы'} onClick={this.setCurrent}>Соусы</Tab>
+                        <Tab value="Соусы" active={isSauceActive} onClick={this.setCurrentTab}>Соусы</Tab>
                     </a>
                     <a href='#main' className={styles.anchor}>
-                        <Tab value="Начинки" active={this.state.current === 'Начинки'} onClick={this.setCurrent}>Начинки</Tab>
+                        <Tab value="Начинки" active={isMainActive} onClick={this.setCurrentTab}>Начинки</Tab>
                     </a>
                 </div>
                 <ul className={styles.categories}>

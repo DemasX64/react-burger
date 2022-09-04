@@ -9,6 +9,11 @@
     padding-left: 0px;
 }
 
+.categories {
+    height: calc(100vh - 284px);
+    min-height: 284px;
+}
+
 .nav {
     display: flex;
 }
