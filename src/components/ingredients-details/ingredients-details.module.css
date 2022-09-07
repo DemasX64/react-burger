@@ -1,0 +1,6 @@
+.nutritionalValue {
+    display: flex;
+    gap: 20px;
+    text-align: center;
+    padding-left: 0px;
+}
