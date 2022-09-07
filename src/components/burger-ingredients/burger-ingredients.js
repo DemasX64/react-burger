@@ -4,6 +4,12 @@ import BurgerCategory from '../burger-category/burger-category';
 import styles from './burger-ingredients.module.css'
 import { ingredientsProp } from '../../utils/prop-types';
 
+const CATEGORIES = {
+    MAIN: {TYPE:'main',NAME:'Начинки'},
+    BUN: {TYPE:'bun',NAME:'Булки'},
+    SAUCE: {TYPE:'sauce',NAME:'Соусы'},
+}
+
 const BurgerIngredients = (props) => {
 
     const [currentTab, setCurrentTab] = useState('Булки')
@@ -12,12 +18,6 @@ const BurgerIngredients = (props) => {
          setCurrentTab(value)
     }
 
-    const CATEGORIES = {
-        MAIN: {TYPE:'main',NAME:'Начинки'},
-        BUN: {TYPE:'bun',NAME:'Булки'},
-        SAUCE: {TYPE:'sauce',NAME:'Соусы'},
-    }
-    
     const main = props.ingredients.filter((ingredient) => ingredient.type===CATEGORIES.MAIN.TYPE)
     const bun = props.ingredients.filter((ingredient) => ingredient.type===CATEGORIES.BUN.TYPE)
     const sauce = props.ingredients.filter((ingredient) => ingredient.type===CATEGORIES.SAUCE.TYPE)

@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import styles from './modal.module.css'
 import { modalProp } from '../../utils/prop-types';
 
+const escKeyCode = 27;
+
 const Modal = (props) => {
 
     const preventClickOnModal = (e) => {
@@ -11,13 +13,13 @@ const Modal = (props) => {
 
     useEffect(() => {
         const closeModal = (e) => {
-          if(e.keyCode === 27){
+          if(e.keyCode === escKeyCode){
             props.onClick()
           }
         }
         window.addEventListener('keydown', closeModal)
       return () => window.removeEventListener('keydown', closeModal)
-    },[])
+    },[props.onClick])
 
     return ( 
         <article className={styles.container} onClick={preventClickOnModal}>

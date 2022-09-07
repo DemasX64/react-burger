@@ -3,12 +3,14 @@ import styles from './app-header.module.css'
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import NavItem from '../nav-item/nav-item';
 
+const PAGES = {
+    CONSTRUCTOR: 1,
+    ORDERS: 2,
+    PROFILE: 3,
+}
+
 const AppHeader = () => {
-    const PAGES = {
-        CONSTRUCTOR: 1,
-        ORDERS: 2,
-        PROFILE: 3,
-    }
+    
     const [currentPage, setCurrentPage] = useState(PAGES.CONSTRUCTOR)
 
     const setCurrentPageHandler = (value) => {
