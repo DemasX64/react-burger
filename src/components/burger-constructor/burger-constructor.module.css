@@ -1,0 +1,39 @@
+.price > svg {
+    width: 33px;
+    height: 33px;
+}
+
+.price {
+    display: flex;
+}
+
+.container {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 464px;
+    align-items: flex-start;
+    padding-left: 0px;
+}
+
+.container {
+    min-height: 80px;
+    height: calc(100vh - 536px);
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.total {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+li {
+    list-style-type: none; 
+}
