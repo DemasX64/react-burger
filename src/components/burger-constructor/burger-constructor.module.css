@@ -22,12 +22,6 @@
     height: calc(100vh - 536px);
 }
 
-.item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
 .total {
     display: flex;
     justify-content: flex-end;
