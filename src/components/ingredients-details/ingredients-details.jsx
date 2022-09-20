@@ -11,7 +11,7 @@ function IngredientsDetails() {
     fat,
     carbohydrates,
     calories,
-  } = useSelector((state) => state.burger.currentIngredient);
+  } = useSelector((state) => state.ingredientDetails.currentIngredient);
 
   return (
     <>

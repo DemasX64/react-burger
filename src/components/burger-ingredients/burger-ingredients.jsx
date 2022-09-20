@@ -1,16 +1,12 @@
 /* eslint-disable max-len */
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import BurgerCategory from '../burger-category/burger-category';
 import styles from './burger-ingredients.module.css';
 import { setCurrentTab } from '../../services/reducers';
-
-const CATEGORIES = {
-  MAIN: { TYPE: 'main', NAME: 'Начинки' },
-  BUN: { TYPE: 'bun', NAME: 'Булки' },
-  SAUCE: { TYPE: 'sauce', NAME: 'Соусы' },
-};
+import { setBun } from '../../services/reducers/constructor';
+import { CATEGORIES } from '../../utils/constants';
 
 function BurgerIngredients() {
   const dispatch = useDispatch();
@@ -19,7 +15,12 @@ function BurgerIngredients() {
   const setCurrentTabHandler = (value) => {
     dispatch(setCurrentTab(value));
   };
-  const ingredients = useSelector((state) => state.burger.ingredients);
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  useMemo(() => {
+    if (ingredients.length > 0) {
+      dispatch(setBun(ingredients[0]));
+    }
+  }, [ingredients]);
 
   const main = ingredients.filter((ingredient) => ingredient.type === CATEGORIES.MAIN.TYPE);
   const bun = ingredients.filter((ingredient) => ingredient.type === CATEGORIES.BUN.TYPE);
@@ -38,13 +39,13 @@ function BurgerIngredients() {
       <p className="text text_type_main-large mt-10">Соберите бургер</p>
       <div className={`mt-5 ${styles.nav}`}>
         <a href="#bun" className={styles.anchor}>
-          <Tab value={CATEGORIES.BUN.NAME} active={isBunActive} onClick={setCurrentTabHandler}>Булки</Tab>
+          <Tab value={CATEGORIES.BUN.NAME} active={isBunActive} onClick={setCurrentTabHandler}>{CATEGORIES.BUN.NAME}</Tab>
         </a>
         <a href="#sauce" className={styles.anchor}>
-          <Tab value={CATEGORIES.SAUCE.NAME} active={isSauceActive} onClick={setCurrentTabHandler}>Соусы</Tab>
+          <Tab value={CATEGORIES.SAUCE.NAME} active={isSauceActive} onClick={setCurrentTabHandler}>{CATEGORIES.SAUCE.NAME}</Tab>
         </a>
         <a href="#main" className={styles.anchor}>
-          <Tab value={CATEGORIES.MAIN.NAME} active={isMainActive} onClick={setCurrentTabHandler}>Начинки</Tab>
+          <Tab value={CATEGORIES.MAIN.NAME} active={isMainActive} onClick={setCurrentTabHandler}>{CATEGORIES.MAIN.NAME}</Tab>
         </a>
       </div>
       <ul className={styles.categories}>

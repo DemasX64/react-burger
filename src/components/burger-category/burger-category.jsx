@@ -6,14 +6,29 @@ import { useDispatch } from 'react-redux';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import styles from './burger-category.module.css';
 import { ingredientsProp } from '../../utils/prop-types';
-import { setCurrentTab } from '../../services/reducers';
+import { setBunInView, setMainInView, setSauceInView } from '../../services/reducers';
+import { CATEGORIES } from '../../utils/constants';
 
 function BurgerCategory(props) {
   const dispatch = useDispatch();
   const { title, id, ingredients } = props;
   const onChangeTabHandle = (inView) => {
-    if (inView) {
-      dispatch(setCurrentTab(title));
+    switch (title) {
+      case CATEGORIES.BUN.NAME: {
+        dispatch(setBunInView(inView));
+        break;
+      }
+      case CATEGORIES.MAIN.NAME: {
+        dispatch(setMainInView(inView));
+        break;
+      }
+      case CATEGORIES.SAUCE.NAME: {
+        dispatch(setSauceInView(inView));
+        break;
+      }
+      default: {
+        dispatch(setBunInView(inView));
+      }
     }
   };
 

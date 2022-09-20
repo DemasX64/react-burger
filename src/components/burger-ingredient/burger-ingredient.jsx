@@ -10,24 +10,26 @@ import styles from './burger-ingredient.module.css';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import IngredientsDetails from '../ingredients-details/ingredients-details';
 import { ingredientProp } from '../../utils/prop-types';
-import { setCurrentIngredient, toggleIngredientDetails } from '../../services/reducers';
+import { setCurrentIngredient, toggleIngredientDetails } from '../../services/reducers/ingredient-details';
 
 function BurgerIngredient({ ingredient }) {
   const dispatch = useDispatch();
   const count = useSelector((state) => {
     if (ingredient.type === 'bun') {
-      if (state.burger.bun._id === ingredient._id) {
+      if (state.burgerConstructor.bun._id === ingredient._id) {
         return 2;
       }
       return 0;
     }
-    return state.burger.constructor.reduce((sum, number) => {
+    return state.burgerConstructor.constructor.reduce((sum, number) => {
       if (number._id === ingredient._id) {
         return sum + 1;
       } return sum;
     }, 0);
   });
-  const isIngridientInfoOpen = useSelector((state) => state.burger.isIngredientDetailsOpen);
+  const isIngridientInfoOpen = useSelector(
+    (state) => state.ingredientDetails.isIngredientDetailsOpen,
+  );
 
   const toggleInfo = () => {
     dispatch(setCurrentIngredient(ingredient));

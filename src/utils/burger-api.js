@@ -13,7 +13,7 @@ const handleError = (err) => {
 };
 
 const getIngredients = createAsyncThunk(
-  'burger/getIngredients',
+  'ingredients/getIngredients',
   async (data, thunkAPI) => {
     try {
       const response = await fetch(getIngredientsReq);
@@ -31,14 +31,14 @@ const getIngredients = createAsyncThunk(
 );
 
 const createOrder = createAsyncThunk(
-  'burger/createOrder',
+  'orderDetails/createOrder',
   async (data, thunkAPI) => {
     try {
       const body = {
-        ingredients: thunkAPI.getState().burger.constructor.map((item) => item._id),
+        ingredients: thunkAPI.getState().burgerConstructor.constructor.map((item) => item._id),
       };
-      body.ingredients.push(thunkAPI.getState().burger.bun._id);
-      body.ingredients.unshift(thunkAPI.getState().burger.bun._id);
+      body.ingredients.push(thunkAPI.getState().burgerConstructor.bun._id);
+      body.ingredients.unshift(thunkAPI.getState().burgerConstructor.bun._id);
       const response = await fetch(createOrderReq, {
         method: 'POST',
         body: JSON.stringify(body),

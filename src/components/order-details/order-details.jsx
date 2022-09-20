@@ -6,7 +6,7 @@ import { createOrder } from '../../utils/burger-api';
 
 function OrderDetails() {
   const dispatch = useDispatch();
-  const order = useSelector((state) => state.burger.order);
+  const order = useSelector((state) => state.orderDetails.order);
 
   useEffect(() => {
     dispatch(createOrder());

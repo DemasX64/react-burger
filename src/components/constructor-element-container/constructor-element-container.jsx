@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 import styles from './constructor-element-container.module.css';
-import { removeIngredientFromConstructor, swapItems } from '../../services/reducers/index';
+import { removeIngredientFromConstructor, swapItems } from '../../services/reducers/constructor';
 import { ingredientProp } from '../../utils/prop-types';
 
 function ConstructorElementContainer({ ingredient, index }) {

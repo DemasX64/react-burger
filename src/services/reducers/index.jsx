@@ -2,108 +2,51 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
 import { createSlice } from '@reduxjs/toolkit';
-import { createOrder, getIngredients } from '../../utils/burger-api';
+import { CATEGORIES } from '../../utils/constants';
 
 const initialState = {
-  ingredients: [],
-  getIngredientsRequest: false,
-  getIngredientsFailed: false,
-  getIngredientsSuccess: false,
+  currentTab: CATEGORIES.BUN.NAME,
+  bunInView: false,
+  mainInView: false,
+  sauceInView: false,
+};
 
-  createOrderRequest: false,
-  createOrderFailed: false,
-  createOrderSuccess: false,
-
-  bun: {},
-  constructor: [],
-  currentIngredient: null,
-  order: null,
-  currentTab: 'Булки',
-  isOrderDetailsOpen: false,
-  isIngredientDetailsOpen: false,
+const calculateTab = (state) => {
+  if (state.bunInView) {
+    state.currentTab = CATEGORIES.BUN.NAME;
+  } else if (state.sauceInView) {
+    state.currentTab = CATEGORIES.SAUCE.NAME;
+  } else {
+    state.currentTab = CATEGORIES.MAIN.NAME;
+  }
 };
 
 export const burgerSlice = createSlice({
   name: 'burger',
   initialState,
   reducers: {
-    addIngredientToConstructor(state, action) {
-      state.constructor.push(action.payload);
-    },
-    removeIngredientFromConstructor(state, action) {
-      const index = state.constructor.findIndex((value) => value.uuid === action.payload);
-      state.constructor.splice(index, 1);
-    },
-    setOrder(state, action) {
-      state.order = action.payload;
-    },
-    swapItems(state, action) {
-      const temp = state.constructor[action.payload.dragIndex];
-      state.constructor[action.payload.dragIndex] = state.constructor[action.payload.hoverIndex];
-      state.constructor[action.payload.hoverIndex] = temp;
-    },
     setCurrentTab(state, action) {
       state.currentTab = action.payload;
     },
-    setCurrentIngredient(state, action) {
-      state.currentIngredient = action.payload;
+    setBunInView(state, action) {
+      state.bunInView = action.payload;
+      calculateTab(state);
     },
-    setBun(state, action) {
-      state.bun = action.payload;
+    setMainInView(state, action) {
+      state.mainInView = action.payload;
+      calculateTab(state);
     },
-    toggleOrderDetails(state) {
-      state.isOrderDetailsOpen = !state.isOrderDetailsOpen;
+    setSauceInView(state, action) {
+      state.sauceInView = action.payload;
+      calculateTab(state);
     },
-    toggleIngredientDetails(state) {
-      if (state.isIngredientDetailsOpen) {
-        state.currentIngredient = null;
-      }
-      state.isIngredientDetailsOpen = !state.isIngredientDetailsOpen;
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(getIngredients.pending, (state) => {
-      state.getIngredientsSuccess = false;
-      state.getIngredientsFailed = false;
-      state.getIngredientsRequest = true;
-    });
-    builder.addCase(getIngredients.fulfilled, (state, action) => {
-      state.getIngredientsSuccess = true;
-      state.getIngredientsRequest = false;
-      state.ingredients = action.payload;
-      state.bun = action.payload[0];
-    });
-    builder.addCase(getIngredients.rejected, (state) => {
-      state.getIngredientsRequest = false;
-      state.getIngredientsFailed = true;
-    });
-
-    builder.addCase(createOrder.pending, (state) => {
-      state.createOrderFailed = false;
-      state.createOrderSuccess = false;
-      state.createOrderRequest = true;
-    });
-    builder.addCase(createOrder.fulfilled, (state, action) => {
-      state.createOrderSuccess = true;
-      state.createOrderRequest = false;
-      console.log(action.payload);
-      state.order = action.payload;
-    });
-    builder.addCase(createOrder.rejected, (state) => {
-      state.createOrderRequest = false;
-      state.createOrderFailed = true;
-    });
   },
 });
 
 export const {
-  addIngredientToConstructor,
-  removeIngredientFromConstructor,
   setCurrentTab,
-  setBun,
-  toggleIngredientDetails,
-  toggleOrderDetails,
-  setCurrentIngredient,
-  swapItems,
+  setBunInView,
+  setMainInView,
+  setSauceInView,
 } = burgerSlice.actions;
 export default burgerSlice.reducer;

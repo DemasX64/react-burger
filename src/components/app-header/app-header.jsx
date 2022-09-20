@@ -4,12 +4,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
 import NavItem from '../nav-item/nav-item';
-
-const PAGES = {
-  CONSTRUCTOR: 1,
-  ORDERS: 2,
-  PROFILE: 3,
-};
+import { PAGES } from '../../utils/constants';
 
 function AppHeader() {
   const [currentPage, setCurrentPage] = useState(PAGES.CONSTRUCTOR);

@@ -7,12 +7,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import OrderDetails from '../order-details/order-details';
 import styles from './burger-constructor.module.css';
-import { addIngredientToConstructor, setBun, toggleOrderDetails } from '../../services/reducers/index';
+import { addIngredientToConstructor, setBun } from '../../services/reducers/constructor';
 import ConstructorElementContainer from '../constructor-element-container/constructor-element-container';
+import { toggleOrderDetails } from '../../services/reducers/order-details';
 
 function BurgerConstructor() {
-  const bun = useSelector((state) => state.burger.bun);
-  const ingredients = useSelector((state) => state.burger.constructor);
+  const bun = useSelector((state) => state.burgerConstructor.bun);
+  const ingredients = useSelector((state) => state.burgerConstructor.constructor);
 
   const { name, price, image_mobile } = bun;
 
@@ -26,7 +27,7 @@ function BurgerConstructor() {
 
   const dispatch = useDispatch();
 
-  const isOrderDetailsOpen = useSelector((state) => state.burger.isOrderDetailsOpen);
+  const isOrderDetailsOpen = useSelector((state) => state.orderDetails.isOrderDetailsOpen);
 
   const toggleOrderDetailsHandler = () => {
     dispatch(toggleOrderDetails());

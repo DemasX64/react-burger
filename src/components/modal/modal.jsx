@@ -5,8 +5,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect } from 'react';
 import styles from './modal.module.css';
 import { modalProp } from '../../utils/prop-types';
-
-const escKeyCode = 27;
+import { escKeyCode } from '../../utils/constants';
 
 function Modal(props) {
   const {
