@@ -1,27 +1,31 @@
-import { useEffect, useState } from "react";
-import { getIngredients } from "../../utils/burger-api";
-import AppHeader from "../app-header/app-header";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import styles from './app.module.css'
+import React, { useEffect } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDispatch } from 'react-redux';
+import { getIngredients } from '../../utils/burger-api';
+import AppHeader from '../app-header/app-header';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import styles from './app.module.css';
 
-const App = () => {
+function App() {
+  const dispatch = useDispatch();
 
-    const [ingredients, setIngredients] = useState([])
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, []);
 
-    useEffect(() => {
-        getIngredients(setIngredients)
-    },[])
-
-    return ( 
-        <>
-            <AppHeader/>
-            <main className={styles.main}>
-                <BurgerIngredients ingredients={ingredients}/>
-                <BurgerConstructor/>
-            </main>
-        </>
-    );
+  return (
+    <>
+      <AppHeader />
+      <main className={styles.main}>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </DndProvider>
+      </main>
+    </>
+  );
 }
- 
+
 export default App;
