@@ -19,7 +19,7 @@ import styles from './app.module.css';
 import ProtectedRoute from '../protected-route/protected-route';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { updateToken } from '../../utils/auth-api';
-import { getCookie, setCookie } from '../../utils/cookie-service';
+import { getCookie } from '../../utils/cookie-service';
 import { getUser } from '../../utils/user-api';
 
 function App() {
