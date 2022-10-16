@@ -33,13 +33,11 @@ const store = configureStore({
 });
 
 render(
-  <React.StrictMode>
-    <Provider store={store}>
+  <Provider store={store}>
+    <BrowserRouter>
       <AppHeader />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>,
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root'),
 );

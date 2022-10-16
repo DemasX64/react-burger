@@ -29,7 +29,8 @@ export const authSlice = createSlice({
     builder.addCase(login.fulfilled, (state, action) => {
       console.log(action);
       state.user = action.payload.user;
-      setCookie('token', action.payload.refreshToken, null);
+      setCookie('accessToken', action.payload.accessToken, { expires: 1200 });
+      setCookie('refreshToken', action.payload.refreshToken, null);
     });
     builder.addCase(login.rejected, (state) => {
     });
@@ -38,7 +39,8 @@ export const authSlice = createSlice({
 
     });
     builder.addCase(logout.fulfilled, (state) => {
-      setCookie('token', null);
+      setCookie('accessToken', null);
+      setCookie('refreshToken', null);
       state.user = null;
     });
     builder.addCase(logout.rejected, (state) => {
@@ -49,6 +51,10 @@ export const authSlice = createSlice({
 
     });
     builder.addCase(updateToken.fulfilled, (state, action) => {
+      // setCookie('accessToken', action.payload.accessToken);
+      // setCookie('refreshToken', action.payload.refreshToken);
+      setCookie('accessToken', action.payload.accessToken, { expires: 1200 });
+      setCookie('refreshToken', action.payload.refreshToken, null);
     });
     builder.addCase(updateToken.rejected, (state) => {
 

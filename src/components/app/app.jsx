@@ -31,18 +31,17 @@ function App() {
   }, []);
 
   useEffect(async () => {
-    const token = getCookie('token');
-    console.log(token);
-    if (token && token !== 'null') {
-      const tokens = await dispatch(updateToken(token)).unwrap();
-      console.log(tokens);
-      if (tokens) {
-        setCookie('token', tokens.refreshToken, null);
-        dispatch(getUser(tokens.accessToken));
+    const accessToken = getCookie('accessToken');
+    const refreshToken = getCookie('refreshToken');
+
+    if (accessToken) {
+      const isUserGet = await dispatch(getUser(accessToken)).unwrap();
+      if (!isUserGet) {
+        const updateTokens = await dispatch(updateToken(refreshToken));
+        if (updateTokens) {
+          dispatch(getUser(updateTokens.accessToken));
+        }
       }
-        //setCookie('token', value.refreshToken, null);
-        //console.log(value);
-        //dispatch(getUser(value.accessToken));
     }
   }, []);
 
@@ -53,14 +52,14 @@ function App() {
   return (
     <>
       <Switch location={background || location}>
-        <ProtectedRoute path="/" exact>
+        <Route path="/" exact>
           <main className={styles.main}>
             <DndProvider backend={HTML5Backend}>
               <BurgerIngredients />
               <BurgerConstructor />
             </DndProvider>
           </main>
-        </ProtectedRoute>
+        </Route>
         <Route path="/login">
           <Login />
         </Route>

@@ -3,6 +3,7 @@
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useMemo } from 'react';
 import { useDrop } from 'react-dnd';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import OrderDetails from '../order-details/order-details';
@@ -12,6 +13,9 @@ import ConstructorElementContainer from '../constructor-element-container/constr
 import { toggleOrderDetails } from '../../services/reducers/order-details';
 
 function BurgerConstructor() {
+  const user = useSelector((state) => state.auth.user);
+  const history = useHistory();
+
   const bun = useSelector((state) => state.burgerConstructor.bun);
   const ingredients = useSelector((state) => state.burgerConstructor.constructor);
 
@@ -30,7 +34,11 @@ function BurgerConstructor() {
   const isOrderDetailsOpen = useSelector((state) => state.orderDetails.isOrderDetailsOpen);
 
   const toggleOrderDetailsHandler = () => {
-    dispatch(toggleOrderDetails());
+    if (user) {
+      dispatch(toggleOrderDetails());
+    } else {
+      history.replace('/login');
+    }
   };
 
   const [, refDrop] = useDrop({

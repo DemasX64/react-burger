@@ -86,6 +86,7 @@ export const login = createAsyncThunk(
         thunkAPI.rejectWithValue(response.statusText);
       }
       const json = await response.json();
+      json.user.password = body.password;
       return json;
     } catch (err) {
       handleError(err);

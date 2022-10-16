@@ -1,13 +1,14 @@
-.active {
-    color: #F2F2F3;
-}
-
-.disable {
-    color:#8585AD;
-}
-
 .container {
     display:flex;
     user-select: none;
     cursor: pointer;
+    text-decoration: none;
+    color:#8585AD;;
+}
+
+.activeLink > p {
+    color: #F2F2F3;
+}
+.activeLink > svg {
+    fill: #F2F2F3;
 }

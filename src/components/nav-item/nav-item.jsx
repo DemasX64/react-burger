@@ -3,34 +3,29 @@
 import '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import styles from './nav-item.module.css';
 
 function NavItem(props) {
   const {
-    onClick,
-    value,
     children,
-    active,
     title,
+    to,
+    isExact,
   } = props;
 
-  const handleNavItemClick = () => {
-    onClick(value);
-  };
-
   return (
-    <div onClick={handleNavItemClick} className={`mt-4 mb-4 pb-4 pt-4 pr-5 pl-5 ${styles.container}`}>
+    <NavLink to={to} exact={isExact} className={`mt-4 mb-4 pb-4 pt-4 pr-5 pl-5 ${styles.container}`} activeClassName={styles.activeLink}>
       {children}
-      <p className={`ml-2 text text_type_main-default ${active ? styles.active : styles.disable}`}>{title}</p>
-    </div>
+      <p className="ml-2 text text_type_main-default">{title}</p>
+    </NavLink>
   );
 }
 
 NavItem.propTypes = {
-  onClick: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
-  value: PropTypes.number.isRequired,
-  active: PropTypes.bool.isRequired,
+  to: PropTypes.string.isRequired,
+  isExact: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
 };
 

@@ -34,10 +34,27 @@ export const getUser = createAsyncThunk(
   },
 );
 export const updateUser = createAsyncThunk(
-  'auth/getUser',
+  'auth/updateUser',
   async (data, thunkAPI) => {
     try {
-      const response = await fetch(userReq);
+      const body = {};
+      if (data.email) {
+        body.email = data.email;
+      }
+      if (data.name) {
+        body.name = data.name;
+      }
+      if (data.password) {
+        body.password = data.password;
+      }
+      const response = await fetch(userReq, {
+        method: 'PATCH',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+          authorization: data.token,
+        },
+        body: JSON.stringify(body),
+      });
       if (!response.ok) {
         handleError(response.statusText);
         thunkAPI.rejectWithValue(response.statusText);
