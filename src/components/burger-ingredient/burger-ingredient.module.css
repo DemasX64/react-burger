@@ -9,6 +9,15 @@
     margin-top: 8px;
     cursor: pointer;
 }
+.link {
+    text-decoration: none;
+}
+.ingredient > p {
+    color: #F2F2F3;
+}
+.price > p { 
+    color: #F2F2F3;
+}
 
 .price {
     display:flex;

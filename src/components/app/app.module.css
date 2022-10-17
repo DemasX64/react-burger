@@ -3,3 +3,8 @@
     gap: 40px;
     justify-content: center;
 }
+
+.ingredientDetailsTitle {
+    margin-top: 180px;
+    text-align: center;
+}
