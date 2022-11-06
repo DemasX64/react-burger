@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import { createOrder } from '../../utils/burger-api';
@@ -11,16 +12,15 @@ interface IOrderDetailsSliceState {
   isOrderDetailsOpen: boolean,
 }
 
-
 const initialState: IOrderDetailsSliceState = {
   createOrderRequest: false,
   createOrderFailed: false,
   createOrderSuccess: false,
 
   order: {
-    name:'',
+    name: '',
     order: {
-      number:0
+      number: 0,
     },
     success: true,
   },

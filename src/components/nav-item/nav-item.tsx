@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import React, { FC, ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './nav-item.module.css';
@@ -27,13 +26,6 @@ const NavItem: FC<INavItemProps> = (props) => {
       <p className="ml-2 text text_type_main-default">{title}</p>
     </NavLink>
   );
-}
-
-NavItem.propTypes = {
-  children: PropTypes.node.isRequired,
-  to: PropTypes.string.isRequired,
-  isExact: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
 };
 
 export default NavItem;

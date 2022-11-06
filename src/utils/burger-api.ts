@@ -1,45 +1,38 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-underscore-dangle */
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { RootState } from '../services/store';
+import { checkResponse, handleError } from './api-service';
+import { BASE_URL } from './constants';
 import { IIngredientProp } from './types';
 
 /* eslint-disable max-len */
-const getIngredientsReq = 'https://norma.nomoreparties.space/api/ingredients';
-const createOrderReq = 'https://norma.nomoreparties.space/api/orders';
-
-// const checkResponse = (res) => (res.ok ? res.json() : res.json().then((err) => Promise.reject(err)));
-
-const handleError = (err: unknown) => {
-  console.log(err);
-  alert('Ошибка получения данных');
-};
+const getIngredientsReq = `${BASE_URL}ingredients`;
+const createOrderReq = `${BASE_URL}orders`;
 
 const getIngredients = createAsyncThunk(
   'ingredients/getIngredients',
-  async (data, thunkAPI) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await fetch(getIngredientsReq);
-      if (!response.ok) {
-        handleError(response.statusText);
-        thunkAPI.rejectWithValue(response.statusText);
-      }
-      const json = await response.json();
+      const json = await checkResponse(response, rejectWithValue);
       return json.data;
     } catch (err) {
       handleError(err);
-      return thunkAPI.rejectWithValue(err);
+      return rejectWithValue(err);
     }
   },
 );
 
 const createOrder = createAsyncThunk(
   'orderDetails/createOrder',
-  async (data, thunkAPI) => {
+  async (data, { getState, rejectWithValue }) => {
     try {
       const body = {
-        ingredients: thunkAPI.getState().burgerConstructor.constructor.map((item: IIngredientProp) => item._id),
+        ingredients: (getState() as RootState).burgerConstructor.constructor.map((item: IIngredientProp) => item._id),
       };
-      body.ingredients.push(thunkAPI.getState().burgerConstructor.bun._id);
-      body.ingredients.unshift(thunkAPI.getState().burgerConstructor.bun._id);
+      body.ingredients.push((getState() as RootState).burgerConstructor.bun._id);
+      body.ingredients.unshift((getState() as RootState).burgerConstructor.bun._id);
       const response = await fetch(createOrderReq, {
         method: 'POST',
         body: JSON.stringify(body),
@@ -47,15 +40,11 @@ const createOrder = createAsyncThunk(
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      if (!response.ok) {
-        handleError(response.statusText);
-        thunkAPI.rejectWithValue(response.statusText);
-      }
-      const json = await response.json();
+      const json = await checkResponse(response, rejectWithValue);
       return json;
     } catch (err) {
       handleError(err);
-      return thunkAPI.rejectWithValue(err);
+      return rejectWithValue(err);
     }
   },
 );

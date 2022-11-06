@@ -10,4 +10,8 @@ const PAGES = {
 };
 const escKeyCode = 27;
 
-export { CATEGORIES, PAGES, escKeyCode };
+const BASE_URL = 'https://norma.nomoreparties.space/api/';
+
+export {
+  CATEGORIES, PAGES, escKeyCode, BASE_URL,
+};

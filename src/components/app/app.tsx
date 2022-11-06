@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useDispatch } from 'react-redux';
 import {
   Route, Switch, useLocation, useHistory,
 } from 'react-router-dom';
@@ -21,30 +20,33 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 import { updateToken } from '../../utils/auth-api';
 import { getCookie } from '../../utils/cookie-service';
 import { getUser } from '../../utils/user-api';
+import useAppDispatch from '../../hooks/useAppDispatch';
 
-function App() {
-  const dispatch = useDispatch();
+const App = () => {
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
   useEffect(() => {
     dispatch(getIngredients());
   }, []);
 
-  useEffect(async () => {
+  useEffect(() => {
     const accessToken = getCookie('accessToken');
     const refreshToken = getCookie('refreshToken');
 
-    if (accessToken) {
-      const isUserGet = await dispatch(getUser(accessToken)).unwrap();
-      if (!isUserGet) {
-        const updateTokens = await dispatch(updateToken(refreshToken));
-        if (updateTokens) {
-          dispatch(getUser(updateTokens.accessToken));
+    (async () => {
+      if (accessToken) {
+        const isUserGet = await dispatch(getUser(accessToken)).unwrap();
+        if (!isUserGet) {
+          const updateTokens: any = await dispatch(updateToken(refreshToken));
+          if (updateTokens) {
+            dispatch(getUser(updateTokens.accessToken));
+          }
         }
       }
-    }
+    })();
   }, []);
-  
+
   const location = useLocation<any>();
 
   const background = location.state && location.state.background;
@@ -75,10 +77,10 @@ function App() {
         <ProtectedRoute path="/profile">
           <Profile />
         </ProtectedRoute>
-        <ProtectedRoute path="/ingredients/:id">
+        <Route path="/ingredients/:id">
           <p className={`text text_type_main-large mt-45 ${styles.ingredientDetailsTitle}`}>Детали ингредиента</p>
           <IngredientsDetails />
-        </ProtectedRoute>
+        </Route>
         <Route>
           <NotFoundPage />
         </Route>
@@ -86,6 +88,6 @@ function App() {
       { background && <Route path="/ingredients/:id"><ModalOverlay title="Детали ингредиента" onClick={() => history.goBack()}><IngredientsDetails /></ModalOverlay></Route>}
     </>
   );
-}
+};
 
 export default App;

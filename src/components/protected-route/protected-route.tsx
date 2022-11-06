@@ -12,12 +12,12 @@ interface IProtectedRouteProps {
 const ProtectedRoute: FC<IProtectedRouteProps> = (props) => {
   const location = useLocation();
   const { children, ...rest } = props;
-  const user = useSelector((state: RootState) => state.auth.user);
+  const isLogged = useSelector((state: RootState) => state.auth.isLogged);
   return (
     <Route {...rest}>
-      {user ? children : <Redirect to={{ pathname: '/login', state: { from: location } }} />}
+      {isLogged ? children : <Redirect to={{ pathname: '/login', state: { from: location } }} />}
     </Route>
   );
-}
+};
 
 export default ProtectedRoute;

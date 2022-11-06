@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
@@ -22,7 +23,7 @@ const initialState: IIngredientsSliceState = {
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
-  reducers:{},
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getIngredients.pending, (state) => {
       state.getIngredientsSuccess = false;

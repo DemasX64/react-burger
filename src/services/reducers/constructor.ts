@@ -10,7 +10,7 @@ interface IConstructorSliceState {
 const initialState:IConstructorSliceState = {
   bun: {
     _id: '',
-    name:'',
+    name: '',
     type: '',
     proteins: 0,
     fat: 0,
@@ -20,7 +20,7 @@ const initialState:IConstructorSliceState = {
     _v: 0,
     image: '',
     image_large: '',
-    image_mobile: ''
+    image_mobile: '',
   },
   constructor: [],
 };

@@ -1,15 +1,14 @@
 /* eslint-disable max-len */
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import BurgerCategory from '../burger-category/burger-category';
 import styles from './burger-ingredients.module.css';
 import { setCurrentTab } from '../../services/reducers';
-import { setBun } from '../../services/reducers/constructor';
 import { CATEGORIES } from '../../utils/constants';
 import { RootState } from '../../services/store';
 
-function BurgerIngredients() {
+const BurgerIngredients = () => {
   const dispatch = useDispatch();
   const currentTab = useSelector((state: RootState) => state.burger.currentTab);
 
@@ -17,11 +16,6 @@ function BurgerIngredients() {
     dispatch(setCurrentTab(value));
   };
   const ingredients = useSelector((state: RootState) => state.ingredients.ingredients);
-  useMemo(() => {
-    if (ingredients.length > 0) {
-      dispatch(setBun(ingredients[0]));
-    }
-  }, [ingredients]);
 
   const main = ingredients.filter((ingredient) => ingredient.type === CATEGORIES.MAIN.TYPE);
   const bun = ingredients.filter((ingredient) => ingredient.type === CATEGORIES.BUN.TYPE);
@@ -52,6 +46,6 @@ function BurgerIngredients() {
       </ul>
     </section>
   );
-}
+};
 
 export default BurgerIngredients;

@@ -12,9 +12,9 @@ interface IConstructorElementContainerProps {
   index: number,
 }
 
-const ConstructorElementContainer: FC<IConstructorElementContainerProps> = ({ ingredient, index }) => {
+const ConstructorElementContainer: FC<IConstructorElementContainerProps> = (props) => {
+  const { ingredient, index } = props;
   const {
-    type,
     name,
     price,
     image_mobile,
@@ -42,7 +42,7 @@ const ConstructorElementContainer: FC<IConstructorElementContainerProps> = ({ in
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      let hoverClientY = 0
+      let hoverClientY = 0;
       if (clientOffset) {
         hoverClientY = clientOffset.y - hoverBoundingRect.top;
       }
@@ -68,9 +68,15 @@ const ConstructorElementContainer: FC<IConstructorElementContainerProps> = ({ in
   return (
     <li ref={ref} className={`${styles.item}`}>
       {!ingredient.isLocked && <DragIcon type="primary" />}
-      <ConstructorElement isLocked={ingredient.isLocked} text={name} price={price} thumbnail={image_mobile} handleClose={removeIngredient} />
+      <ConstructorElement
+        isLocked={ingredient.isLocked}
+        text={name}
+        price={price}
+        thumbnail={image_mobile}
+        handleClose={removeIngredient}
+      />
     </li>
   );
-}
+};
 
 export default ConstructorElementContainer;

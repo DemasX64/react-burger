@@ -14,8 +14,8 @@ import { toggleOrderDetails } from '../../services/reducers/order-details';
 import { IIngredientProp } from '../../utils/types';
 import { RootState } from '../../services/store';
 
-function BurgerConstructor() {
-  const user = useSelector((state: RootState) => state.auth.user);
+const BurgerConstructor = () => {
+  const isLogged = useSelector((state: RootState) => state.auth.isLogged);
   const history = useHistory();
 
   const bun = useSelector((state: RootState) => state.burgerConstructor.bun);
@@ -36,8 +36,12 @@ function BurgerConstructor() {
   const isOrderDetailsOpen = useSelector((state: RootState) => state.orderDetails.isOrderDetailsOpen);
 
   const toggleOrderDetailsHandler = () => {
-    if (user) {
-      dispatch(toggleOrderDetails());
+    if (isLogged) {
+      if (bun.name) {
+        dispatch(toggleOrderDetails());
+      } else {
+        alert('Добавьте булку');
+      }
     } else {
       history.replace('/login');
     }
@@ -58,7 +62,7 @@ function BurgerConstructor() {
     <section>
       <ul className="mt-25 pl-4">
         <li className="ml-8">
-          <ConstructorElement isLocked type="top" text={`${name} (верх)`} price={price} thumbnail={image_mobile} />
+          {bun.name ? <ConstructorElement isLocked type="top" text={`${name} (верх)`} price={price} thumbnail={image_mobile} /> : <p className="text text_type_main-default">Здесь должна быть булка, но ее нет. Перенесите ее из списка.</p>}
         </li>
         <li>
           <ul ref={refDrop} className={`pr-2 mt-4 mb-4 ${styles.container}`}>
@@ -68,7 +72,7 @@ function BurgerConstructor() {
           </ul>
         </li>
         <li className="ml-8">
-          <ConstructorElement isLocked type="bottom" text={`${name} (низ)`} price={price} thumbnail={image_mobile} />
+          {bun.name ? <ConstructorElement isLocked type="bottom" text={`${name} (низ)`} price={price} thumbnail={image_mobile} /> : <p className="text text_type_main-default">Здесь должна быть булка, но ее нет. Перенесите ее из списка.</p>}
         </li>
       </ul>
       <div className={`mb-13 mt-10 pl-4 pr-4  ${styles.total}`}>
@@ -76,11 +80,11 @@ function BurgerConstructor() {
           <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType='submit' type="primary" size="large" onClick={toggleOrderDetailsHandler}>Оформить заказ</Button>
+        <Button htmlType="submit" type="primary" size="large" onClick={toggleOrderDetailsHandler}>Оформить заказ</Button>
         {isOrderDetailsOpen && <ModalOverlay onClick={toggleOrderDetailsHandler}><OrderDetails /></ModalOverlay>}
       </div>
     </section>
   );
-}
+};
 
 export default BurgerConstructor;

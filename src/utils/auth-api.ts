@@ -1,20 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { checkResponse, handleError } from './api-service';
+import { BASE_URL } from './constants';
 
-const loginReq = 'https://norma.nomoreparties.space/api/auth/login';
-const logoutReq = 'https://norma.nomoreparties.space/api/auth/logout';
-const tokenReq = 'https://norma.nomoreparties.space/api/auth/token';
-const registerReq = 'https://norma.nomoreparties.space/api/auth/register';
-const forgotPasswordReq = 'https://norma.nomoreparties.space/api/password-reset';
-const resetPasswordReq = 'https://norma.nomoreparties.space/api/password-reset/reset';
+const loginReq = `${BASE_URL}auth/login`;
+const logoutReq = `${BASE_URL}auth/logout`;
+const tokenReq = `${BASE_URL}auth/token`;
+const registerReq = `${BASE_URL}auth/register`;
+const forgotPasswordReq = `${BASE_URL}password-reset`;
+const resetPasswordReq = `${BASE_URL}password-reset/reset`;
 
-const handleError = (err: unknown) => {
-  console.log(err);
-  alert('Ошибка получения данных');
-};
-
-export const forgotPassword = createAsyncThunk<{email: string},{},{}>(
+export const forgotPassword = createAsyncThunk<{email: string}, {}, {}>(
   'auth/forgotPassword',
-  async (data, thunkAPI) => {
+  async (data, { rejectWithValue }) => {
     try {
       const body = {
         email: data,
@@ -26,22 +23,18 @@ export const forgotPassword = createAsyncThunk<{email: string},{},{}>(
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      if (!response.ok) {
-        handleError(response.statusText);
-        thunkAPI.rejectWithValue(response.statusText);
-      }
-      const json = await response.json();
+      const json = await checkResponse(response, rejectWithValue);
       return json;
     } catch (err: unknown) {
       handleError(err);
-      return thunkAPI.rejectWithValue(err);
+      return rejectWithValue(err);
     }
   },
 );
 
-export const resetPassword = createAsyncThunk(
+export const resetPassword = createAsyncThunk<any, any, any>(
   'resetPassword/resetPassword',
-  async (data:{ password:string, code:string}, thunkAPI) => {
+  async (data:{ password:string, code:string}, { rejectWithValue }) => {
     try {
       const body = {
         password: data.password,
@@ -54,21 +47,17 @@ export const resetPassword = createAsyncThunk(
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      if (!response.ok) {
-        handleError(response.statusText);
-        thunkAPI.rejectWithValue(response.statusText);
-      }
-      const json = await response.json();
+      const json = await checkResponse(response, rejectWithValue);
       return json;
     } catch (err) {
       handleError(err);
-      return thunkAPI.rejectWithValue(err);
+      return rejectWithValue(err);
     }
   },
 );
-export const login = createAsyncThunk(
+export const login = createAsyncThunk<any, any, any>(
   'auth/login',
-  async (data:{email:string, password:string}, thunkAPI) => {
+  async (data:{email:string, password:string}, { rejectWithValue }) => {
     try {
       const body = {
         email: data.email,
@@ -81,22 +70,18 @@ export const login = createAsyncThunk(
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      if (!response.ok) {
-        handleError(response.statusText);
-        thunkAPI.rejectWithValue(response.statusText);
-      }
-      const json = await response.json();
+      const json = await checkResponse(response, rejectWithValue);
       json.user.password = body.password;
       return json;
     } catch (err) {
       handleError(err);
-      return thunkAPI.rejectWithValue(err);
+      return rejectWithValue(err);
     }
   },
 );
-export const register = createAsyncThunk(
+export const register = createAsyncThunk<any, any, any>(
   'auth/register',
-  async (data:{email:string, password:string, name:string}, thunkAPI) => {
+  async (data:{email:string, password:string, name:string}, { rejectWithValue }) => {
     try {
       const body = {
         email: data.email,
@@ -110,21 +95,17 @@ export const register = createAsyncThunk(
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      if (!response.ok) {
-        handleError(response.statusText);
-        thunkAPI.rejectWithValue(response.statusText);
-      }
-      const json = await response.json();
+      const json = await checkResponse(response, rejectWithValue);
       return json;
     } catch (err) {
       handleError(err);
-      return thunkAPI.rejectWithValue(err);
+      return rejectWithValue(err);
     }
   },
 );
-export const logout = createAsyncThunk(
+export const logout = createAsyncThunk<any, any, any>(
   'auth/logout',
-  async (data, thunkAPI) => {
+  async (data, { rejectWithValue }) => {
     try {
       const body = {
         token: data,
@@ -136,21 +117,17 @@ export const logout = createAsyncThunk(
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      if (!response.ok) {
-        handleError(response.statusText);
-        thunkAPI.rejectWithValue(response.statusText);
-      }
-      const json = await response.json();
+      const json = await checkResponse(response, rejectWithValue);
       return json;
     } catch (err) {
       handleError(err);
-      return thunkAPI.rejectWithValue(err);
+      return rejectWithValue(err);
     }
   },
 );
-export const updateToken = createAsyncThunk(
+export const updateToken = createAsyncThunk<any, any, any>(
   'auth/updateToken',
-  async (data, thunkAPI) => {
+  async (data, { rejectWithValue }) => {
     try {
       const body = {
         token: data,
@@ -162,16 +139,11 @@ export const updateToken = createAsyncThunk(
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      if (!response.ok) {
-        handleError(response.statusText);
-        thunkAPI.rejectWithValue(response.statusText);
-      }
-      const json = await response.json();
-      console.log(json);
+      const json = await checkResponse(response, rejectWithValue);
       return json;
     } catch (err) {
       handleError(err);
-      return thunkAPI.rejectWithValue(err);
+      return rejectWithValue(err);
     }
   },
 );

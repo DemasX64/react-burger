@@ -1,12 +1,13 @@
 import '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useAppDispatch from '../../hooks/useAppDispatch';
 import done from '../../images/done.png';
 import { RootState } from '../../services/store';
 import { createOrder } from '../../utils/burger-api';
 
-function OrderDetails() {
-  const dispatch = useDispatch();
+const OrderDetails = () => {
+  const dispatch = useAppDispatch();
   const order = useSelector((state: RootState) => state.orderDetails.order);
 
   useEffect(() => {
@@ -22,6 +23,6 @@ function OrderDetails() {
       <p className="mt-2 mb-15 text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
     </>
   );
-}
+};
 
 export default OrderDetails;

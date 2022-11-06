@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import styles from './ingredients-details.module.css';
 import { RootState } from '../../services/store';
 
-function IngredientsDetails() {
+const IngredientsDetails = () => {
   const params = useParams<{id:string}>();
 
   let image_large = '';
@@ -19,7 +19,7 @@ function IngredientsDetails() {
   useMemo(() => {
     if (ingredients.length !== 0) {
       const ingredient = ingredients.find((el) => el._id === params.id);
-      if(ingredient) {
+      if (ingredient) {
         image_large = ingredient.image_large;
         name = ingredient.name;
         proteins = ingredient.proteins;
@@ -54,6 +54,6 @@ function IngredientsDetails() {
       </ul>
     </div>
   );
-}
+};
 
 export default IngredientsDetails;

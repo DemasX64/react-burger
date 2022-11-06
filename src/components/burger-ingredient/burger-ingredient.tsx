@@ -61,6 +61,6 @@ const BurgerIngredient: FC<IBurgerIngredientProps> = ({ ingredient }) => {
       </li>
     </Link>
   );
-}
+};
 
 export default BurgerIngredient;

@@ -3,15 +3,16 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useStore } from 'react-redux';
+import { useStore } from 'react-redux';
 import styles from './profile.module.css';
 import { logout, updateToken } from '../../utils/auth-api';
 import { getCookie } from '../../utils/cookie-service';
 import { updateUser } from '../../utils/user-api';
 import { RootState } from '../../services/store';
+import useAppDispatch from '../../hooks/useAppDispatch';
 
-function Profile() {
-  const dispatch = useDispatch();
+const Profile = () => {
+  const dispatch = useAppDispatch();
   const store = useStore<RootState>();
 
   const [isNameEditable, setIsNameEditable] = useState(false);
@@ -56,7 +57,7 @@ function Profile() {
         setIsPasswordEditable(false);
       }
     } else {
-      const updateTokens = await dispatch(updateToken(getCookie('refreshToken')));
+      const updateTokens: any = await dispatch(updateToken(getCookie('refreshToken')));
       data.token = updateTokens.accessToken;
       if (updateTokens) {
         dispatch(updateUser(data)).unwrap().then(() => {
@@ -119,13 +120,13 @@ function Profile() {
           icon="EditIcon"
         />
         {(isNameEditable || isEmailEditable || isPasswordEditable) && (
-        <Button htmlType='submit' type="primary" size="medium" onClick={onClickSave}>
+        <Button htmlType="submit" type="primary" size="medium" onClick={onClickSave}>
           Сохранить
         </Button>
         )}
       </div>
     </div>
   );
-}
+};
 
 export default Profile;

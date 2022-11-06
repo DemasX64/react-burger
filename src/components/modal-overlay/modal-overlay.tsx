@@ -13,13 +13,22 @@ interface IModalOverlayProps {
   children: ReactNode
 }
 
-const ModalOverlay: FC<IModalOverlayProps> = (props) => modalRoot ? ReactDOM.createPortal(
-  <div className={styles.container} onClick={props.onClick}>
-    <Modal title={props.title?props.title:''} onClick={props.onClick}>
-      {props.children}
-    </Modal>
-  </div>,
-  modalRoot,
-) : null
+const ModalOverlay: FC<IModalOverlayProps> = (props) => {
+  const { title, onClick, children } = props;
+  return (
+    modalRoot ? ReactDOM.createPortal(
+      <div className={styles.container} onClick={onClick}>
+        <Modal title={title || ''} onClick={onClick}>
+          {children}
+        </Modal>
+      </div>,
+      modalRoot,
+    ) : null
+  );
+};
+
+ModalOverlay.defaultProps = {
+  title: '',
+};
 
 export default ModalOverlay;

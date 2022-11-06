@@ -1,19 +1,21 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { ChangeEvent, FormEvent } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useLocation, Redirect } from 'react-router-dom';
+import useAppDispatch from '../../../hooks/useAppDispatch';
 import { setEmail } from '../../../services/reducers/forgotPassword';
 import { RootState } from '../../../services/store';
 import { forgotPassword } from '../../../utils/auth-api';
 import { IState } from '../../../utils/types';
 import styles from './forgot-password.module.css';
 
-function ForgotPassword() {
-  const dispatch = useDispatch();
+const ForgotPassword = () => {
+  const dispatch = useAppDispatch();
 
   const email = useSelector((state: RootState) => state.forgotPassword.email);
 
-  const onClickHandler = () => {
+  const onSubmitkHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     dispatch(forgotPassword(email));
   };
 
@@ -21,9 +23,9 @@ function ForgotPassword() {
     dispatch(setEmail(e.target.value));
   };
 
-  const user = useSelector((state: RootState) => state.auth.user);
+  const isLogged = useSelector((state: RootState) => state.auth.isLogged);
   const { state } = useLocation<IState>();
-  if (user) {
+  if (isLogged) {
     return (
       <Redirect to={state?.from || '/'} />
     );
@@ -31,21 +33,21 @@ function ForgotPassword() {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.container}>
+      <form className={styles.container} onSubmit={onSubmitkHandler}>
         <p className="text text_type_main-medium">Восстановление пароля</p>
         <Input onChange={onChangeHandler} placeholder="Укажите e-mail" value={email} />
-        <Button htmlType='submit' onClick={onClickHandler} type="primary" size="large">Сохранить</Button>
-      </div>
+        <Button htmlType="submit" type="primary" size="large">Сохранить</Button>
+      </form>
       <p className="text text_type_main-default mt-20">
         Вспомнили пароль?&nbsp;
         <Link className={styles.link} to="/login">
-          <Button htmlType='button' type="secondary" size="medium">
+          <Button htmlType="button" type="secondary" size="medium">
             Войти
           </Button>
         </Link>
       </p>
     </div>
   );
-}
+};
 
 export default ForgotPassword;

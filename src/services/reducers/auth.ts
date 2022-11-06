@@ -12,7 +12,12 @@ import { getUser } from '../../utils/user-api';
 // }
 
 const initialState = {
-  user: null,
+  user: {
+    name: '',
+    email: '',
+    password: '',
+  },
+  isLogged: false,
 };
 
 export const authSlice = createSlice({
@@ -21,9 +26,15 @@ export const authSlice = createSlice({
   reducers: {
     setUser(state, action) {
       state.user = action.payload;
+      state.isLogged = true;
     },
     deleteUser(state) {
-      state.user = null;
+      state.user = {
+        name: '',
+        email: '',
+        password: '',
+      };
+      state.isLogged = false;
     },
   },
   extraReducers: (builder) => {
@@ -31,7 +42,7 @@ export const authSlice = createSlice({
 
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      console.log(action);
+      state.isLogged = true;
       state.user = action.payload.user;
       setCookie('accessToken', action.payload.accessToken, { expires: 1200 });
       setCookie('refreshToken', action.payload.refreshToken, null);
@@ -43,9 +54,14 @@ export const authSlice = createSlice({
 
     });
     builder.addCase(logout.fulfilled, (state) => {
-      setCookie('accessToken', '',{});
-      setCookie('refreshToken', '',{});
-      state.user = null;
+      setCookie('accessToken', '', {});
+      setCookie('refreshToken', '', {});
+      state.user = {
+        name: '',
+        email: '',
+        password: '',
+      };
+      state.isLogged = false;
     });
     builder.addCase(logout.rejected, (state) => {
 

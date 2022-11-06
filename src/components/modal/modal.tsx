@@ -41,6 +41,6 @@ const Modal: FC<IModalProps> = (props) => {
       <div className={styles.body}>{children}</div>
     </div>
   );
-}
+};
 
 export default Modal;

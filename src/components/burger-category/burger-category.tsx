@@ -47,6 +47,6 @@ const BurgerCategory: FC<IBurgerCategoryProps> = (props) => {
       </ul>
     </>
   );
-}
+};
 
 export default BurgerCategory;
