@@ -1,0 +1,44 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  width: 1240px;
+}
+
+.container {
+  display: flex;
+  gap: 60px;
+}
+
+.orders {
+  width: 600px;
+  height: 812px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: scroll;
+  padding-right: 8px;
+}
+
+.statistics {
+  width: 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.statisticsOrdersContainer {
+  display: flex;
+  gap: 36px;
+}
+
+.statisticsOrders {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
