@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { ChangeEvent, useState } from 'react';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import { useStore } from 'react-redux';
 import styles from './profile.module.css';
 import { logout, updateToken } from '../../utils/auth-api';
@@ -10,6 +10,123 @@ import { getCookie } from '../../utils/cookie-service';
 import { updateUser } from '../../utils/user-api';
 import { RootState } from '../../services/store';
 import useAppDispatch from '../../hooks/useAppDispatch';
+import { IIngredientProp } from '../../utils/types';
+import Order from '../../components/order/order';
+
+const arr:IIngredientProp[] = [
+  {
+    _id: '60666c42cc7b410027a1a9b1',
+    name: 'Краторная булка N-200i',
+    type: 'bun',
+    proteins: 80,
+    fat: 24,
+    carbohydrates: 53,
+    calories: 420,
+    price: 1255,
+    image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+    _v: 0,
+  },
+  {
+    _id: '60666c42cc7b410027a1a9b5',
+    name: 'Говяжий метеорит (отбивная)',
+    type: 'main',
+    proteins: 800,
+    fat: 800,
+    carbohydrates: 300,
+    calories: 2674,
+    price: 3000,
+    image: 'https://code.s3.yandex.net/react/code/meat-04.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
+    _v: 0,
+  },
+  {
+    _id: '60666c42cc7b410027a1a9b1',
+    name: 'Краторная булка N-200i',
+    type: 'bun',
+    proteins: 80,
+    fat: 24,
+    carbohydrates: 53,
+    calories: 420,
+    price: 1255,
+    image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+    _v: 0,
+  },
+  {
+    _id: '60666c42cc7b410027a1a9b5',
+    name: 'Говяжий метеорит (отбивная)',
+    type: 'main',
+    proteins: 800,
+    fat: 800,
+    carbohydrates: 300,
+    calories: 2674,
+    price: 3000,
+    image: 'https://code.s3.yandex.net/react/code/meat-04.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
+    _v: 0,
+  },
+  {
+    _id: '60666c42cc7b410027a1a9b1',
+    name: 'Краторная булка N-200i',
+    type: 'bun',
+    proteins: 80,
+    fat: 24,
+    carbohydrates: 53,
+    calories: 420,
+    price: 1255,
+    image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+    _v: 0,
+  },
+  {
+    _id: '60666c42cc7b410027a1a9b5',
+    name: 'Говяжий метеорит (отбивная)',
+    type: 'main',
+    proteins: 800,
+    fat: 800,
+    carbohydrates: 300,
+    calories: 2674,
+    price: 3000,
+    image: 'https://code.s3.yandex.net/react/code/meat-04.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
+    _v: 0,
+  },
+  {
+    _id: '60666c42cc7b410027a1a9b1',
+    name: 'Краторная булка N-200i',
+    type: 'bun',
+    proteins: 80,
+    fat: 24,
+    carbohydrates: 53,
+    calories: 420,
+    price: 1255,
+    image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+    _v: 0,
+  },
+  {
+    _id: '60666c42cc7b410027a1a9b5',
+    name: 'Говяжий метеорит (отбивная)',
+    type: 'main',
+    proteins: 800,
+    fat: 800,
+    carbohydrates: 300,
+    calories: 2674,
+    price: 3000,
+    image: 'https://code.s3.yandex.net/react/code/meat-04.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
+    _v: 0,
+  },
+];
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -94,37 +211,51 @@ const Profile = () => {
         </div>
         <p className="text text_type_main-default text_color_inactive mt-20">В этом разделе вы можете изменить свои персональные данные</p>
       </div>
-      <div className={styles.fields}>
-        <Input
-          onChange={onNameChange}
-          disabled={!isNameEditable}
-          onIconClick={() => setIsNameEditable(true)}
-          placeholder="Имя"
-          value={name}
-          icon="EditIcon"
-        />
-        <Input
-          onChange={onEmailChange}
-          disabled={!isEmailEditable}
-          onIconClick={() => setIsEmailEditable(true)}
-          placeholder="Логин"
-          value={email}
-          icon="EditIcon"
-        />
-        <Input
-          onChange={onPasswordChange}
-          disabled={!isPasswordEditable}
-          onIconClick={() => setIsPasswordEditable(true)}
-          placeholder="Пароль"
-          value={password}
-          icon="EditIcon"
-        />
-        {(isNameEditable || isEmailEditable || isPasswordEditable) && (
-        <Button htmlType="submit" type="primary" size="medium" onClick={onClickSave}>
-          Сохранить
-        </Button>
-        )}
-      </div>
+      <Route path="/profile" exact>
+        <div className={styles.fields}>
+          <Input
+            onChange={onNameChange}
+            disabled={!isNameEditable}
+            onIconClick={() => setIsNameEditable(true)}
+            placeholder="Имя"
+            value={name}
+            icon="EditIcon"
+          />
+          <Input
+            onChange={onEmailChange}
+            disabled={!isEmailEditable}
+            onIconClick={() => setIsEmailEditable(true)}
+            placeholder="Логин"
+            value={email}
+            icon="EditIcon"
+          />
+          <Input
+            onChange={onPasswordChange}
+            disabled={!isPasswordEditable}
+            onIconClick={() => setIsPasswordEditable(true)}
+            placeholder="Пароль"
+            value={password}
+            icon="EditIcon"
+          />
+          {(isNameEditable || isEmailEditable || isPasswordEditable) && (
+          <Button htmlType="submit" type="primary" size="medium" onClick={onClickSave}>
+            Сохранить
+          </Button>
+          )}
+        </div>
+      </Route>
+      <Route path="/profile/orders">
+        <div className={styles.ordersContainer}>
+          <Order maxElements={6} number={123} date="Сегодня, 16:20 i-GMT+3" title="Death Star Starship Main бургер" price={480} ingredients={arr} />
+          <Order maxElements={6} number={123} date="Сегодня, 16:20 i-GMT+3" title="Death Star Starship Main бургер" price={480} ingredients={arr} />
+          <Order maxElements={6} number={123} date="Сегодня, 16:20 i-GMT+3" title="Death Star Starship Main бургер" price={480} ingredients={arr} />
+          <Order maxElements={6} number={123} date="Сегодня, 16:20 i-GMT+3" title="Death Star Starship Main бургер" price={480} ingredients={arr} />
+          <Order maxElements={6} number={123} date="Сегодня, 16:20 i-GMT+3" title="Death Star Starship Main бургер" price={480} ingredients={arr} />
+          <Order maxElements={6} number={123} date="Сегодня, 16:20 i-GMT+3" title="Death Star Starship Main бургер" price={480} ingredients={arr} />
+          <Order maxElements={6} number={123} date="Сегодня, 16:20 i-GMT+3" title="Death Star Starship Main бургер" price={480} ingredients={arr} />
+        </div>
+      </Route>
+
     </div>
   );
 };
