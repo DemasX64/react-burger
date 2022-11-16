@@ -7,12 +7,14 @@ import styles from './modal.module.css';
 import { escKeyCode } from '../../utils/constants';
 
 interface IModalProps {
+  type: 'number'|'string',
   title: string,
   onClick: () => void
 }
 
 const Modal: FC<IModalProps> = (props) => {
   const {
+    type,
     onClick,
     children,
     title,
@@ -35,10 +37,10 @@ const Modal: FC<IModalProps> = (props) => {
   return (
     <div className={styles.container} onClick={preventClickOnModal}>
       <div className={`mt-10 ml-10 mr-10 ${styles.header}`}>
-        <p className="text text_type_main-large">{title}</p>
+        <p className={`text ${type === 'string' ? 'text_type_main-large' : 'text_type_digits-default'}`}>{title}</p>
         <CloseIcon type="primary" onClick={onClick} />
       </div>
-      <div className={styles.body}>{children}</div>
+      <div className={`${styles.body} ${type === 'number' ? styles.bodyNumber : ''}`}>{children}</div>
     </div>
   );
 };

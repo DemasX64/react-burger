@@ -10,6 +10,8 @@ import forgotPasswordReducer from './reducers/forgotPassword';
 import authReducer from './reducers/auth';
 import registerReducer from './reducers/register';
 import loginReducer from './reducers/login';
+import feedReducer from './reducers/feed';
+import profileFeedReducer from './reducers/profileFeed';
 
 const store = configureStore({
   reducer: {
@@ -23,6 +25,8 @@ const store = configureStore({
     auth: authReducer,
     register: registerReducer,
     login: loginReducer,
+    feed: feedReducer,
+    profileFeed: profileFeedReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

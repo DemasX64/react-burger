@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {
@@ -21,6 +21,9 @@ import { updateToken } from '../../utils/auth-api';
 import { getCookie } from '../../utils/cookie-service';
 import { getUser } from '../../utils/user-api';
 import useAppDispatch from '../../hooks/useAppDispatch';
+import FeedPage from '../../pages/feed-page/feed-page';
+import { setData, setIsConnected } from '../../services/reducers/feed';
+import OrderPage from '../order-page/order-page';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -47,9 +50,28 @@ const App = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    const ws = new WebSocket('wss://norma.nomoreparties.space/orders/all');
+    ws.onopen = () => {
+      dispatch(setIsConnected(true));
+    };
+    ws.onmessage = (event: MessageEvent) => {
+      console.log(`Получены данные: ${JSON.parse(event.data)}`);
+      dispatch(setData(JSON.parse(event.data)));
+    };
+    ws.onclose = () => {
+      dispatch(setIsConnected(false));
+    };
+    ws.onerror = () => {
+      dispatch(setIsConnected(false));
+    };
+  }, []);
+
   const location = useLocation<any>();
 
   const background = location.state && location.state.background;
+
+  const [orderNumber, setOrderNumber] = useState(0);
 
   return (
     <>
@@ -61,6 +83,9 @@ const App = () => {
               <BurgerConstructor />
             </DndProvider>
           </main>
+        </Route>
+        <Route path="/feed" exact>
+          <FeedPage />
         </Route>
         <Route path="/login">
           <Login />
@@ -81,11 +106,16 @@ const App = () => {
           <p className={`text text_type_main-large mt-45 ${styles.ingredientDetailsTitle}`}>Детали ингредиента</p>
           <IngredientsDetails />
         </Route>
+        <Route path="/feed/:id">
+          <OrderPage />
+        </Route>
         <Route>
           <NotFoundPage />
         </Route>
       </Switch>
-      { background && <Route path="/ingredients/:id"><ModalOverlay title="Детали ингредиента" onClick={() => history.goBack()}><IngredientsDetails /></ModalOverlay></Route>}
+      { background && <Route path="/ingredients/:id"><ModalOverlay type="string" title="Детали ингредиента" onClick={() => history.goBack()}><IngredientsDetails /></ModalOverlay></Route>}
+      { background && <Route path="/feed/:id"><ModalOverlay type="number" title={`#${orderNumber}`} onClick={() => history.goBack()}><OrderPage setOrderNumber={setOrderNumber} /></ModalOverlay></Route>}
+
     </>
   );
 };

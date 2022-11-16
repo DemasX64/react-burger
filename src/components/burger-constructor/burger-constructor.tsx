@@ -81,7 +81,7 @@ const BurgerConstructor = () => {
           <CurrencyIcon type="primary" />
         </div>
         <Button htmlType="submit" type="primary" size="large" onClick={toggleOrderDetailsHandler}>Оформить заказ</Button>
-        {isOrderDetailsOpen && <ModalOverlay onClick={toggleOrderDetailsHandler}><OrderDetails /></ModalOverlay>}
+        {isOrderDetailsOpen && <ModalOverlay type="string" onClick={toggleOrderDetailsHandler}><OrderDetails /></ModalOverlay>}
       </div>
     </section>
   );

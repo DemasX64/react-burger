@@ -8,17 +8,20 @@ import styles from './modal-overlay.module.css';
 const modalRoot = document.getElementById('react-modals');
 
 interface IModalOverlayProps {
+  type: 'string' | 'number',
   onClick: () => void,
   title?: string,
   children: ReactNode
 }
 
 const ModalOverlay: FC<IModalOverlayProps> = (props) => {
-  const { title, onClick, children } = props;
+  const {
+    type, title, onClick, children,
+  } = props;
   return (
     modalRoot ? ReactDOM.createPortal(
       <div className={styles.container} onClick={onClick}>
-        <Modal title={title || ''} onClick={onClick}>
+        <Modal type={type} title={title || ''} onClick={onClick}>
           {children}
         </Modal>
       </div>,
