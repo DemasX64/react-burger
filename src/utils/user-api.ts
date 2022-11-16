@@ -1,18 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { checkResponse, handleError } from './api-service';
 import { BASE_URL } from './constants';
+import { getCookie } from './cookie-service';
 
 /* eslint-disable max-len */
 const userReq = `${BASE_URL}auth/user`;
 
-export const getUser = createAsyncThunk<any, any, any>(
+export const getUser = createAsyncThunk<any>(
   'auth/getUser',
   async (data, { rejectWithValue }) => {
     try {
       const response = await fetch(userReq, {
         method: 'GET',
         headers: {
-          authorization: data,
+          Authorization: getCookie('accessToken') || '',
         },
       });
       const json = await checkResponse(response, rejectWithValue);

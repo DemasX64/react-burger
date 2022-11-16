@@ -34,11 +34,11 @@ export const forgotPassword = createAsyncThunk<{email: string}, {}, {}>(
 
 export const resetPassword = createAsyncThunk<any, any, any>(
   'resetPassword/resetPassword',
-  async (data:{ password:string, code:string}, { rejectWithValue }) => {
+  async (data:{ password:string, token:string}, { rejectWithValue }) => {
     try {
       const body = {
         password: data.password,
-        token: data.code,
+        token: data.token,
       };
       const response = await fetch(resetPasswordReq, {
         method: 'POST',

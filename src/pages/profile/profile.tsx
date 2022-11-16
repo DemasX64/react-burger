@@ -46,11 +46,6 @@ const Profile = () => {
       password: isPasswordEditable ? password : '',
       token: getCookie('accessToken'),
     };
-    // dispatch(updateUser(data)).unwrap().then(() => {
-    //   setIsEmailEditable(false);
-    //   setIsNameEditable(false);
-    //   setIsPasswordEditable(false);
-    // });
     if (data.token) {
       const isUpdated = await dispatch(updateUser(data)).unwrap();
       if (isUpdated) {

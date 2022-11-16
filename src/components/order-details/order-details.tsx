@@ -9,6 +9,7 @@ import { createOrder } from '../../utils/burger-api';
 const OrderDetails = () => {
   const dispatch = useAppDispatch();
   const order = useSelector((state: RootState) => state.orderDetails.order);
+  const isReady = useSelector((state: RootState) => state.orderDetails.createOrderRequest);
 
   useEffect(() => {
     dispatch(createOrder());
@@ -16,7 +17,8 @@ const OrderDetails = () => {
 
   return (
     <>
-      <p className="mt-4 mb-8 text text_type_digits-large">{order?.order?.number}</p>
+      {!isReady && <p className="mt-4 mb-8 text text_type_digits-large">{order?.order?.number}</p>}
+      {isReady && <p className="mt-4 mb-8 text text_type_main-large">Получение</p>}
       <p className="text text_type_main-medium">идентификатор заказа</p>
       <img src={done} alt="ok" className="mt-15 mb-15" />
       <p className="text text_type_main-default">Ваш заказ начали готовить</p>

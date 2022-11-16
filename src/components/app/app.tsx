@@ -4,10 +4,10 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import {
   Route, Switch, useLocation, useHistory,
 } from 'react-router-dom';
-import ForgotPassword from '../../pages/auth/reset-password/reset-password';
+import ResetPassword from '../../pages/auth/reset-password/reset-password';
 import Login from '../../pages/auth/login/login';
 import Register from '../../pages/auth/register/register';
-import ResetPassword from '../../pages/auth/forgot-password/forgot-password';
+import ForgotPassword from '../../pages/auth/forgot-password/forgot-password';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import Profile from '../../pages/profile/profile';
 import { getIngredients } from '../../utils/burger-api';
@@ -17,8 +17,6 @@ import IngredientsDetails from '../ingredients-details/ingredients-details';
 import styles from './app.module.css';
 import ProtectedRoute from '../protected-route/protected-route';
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import { updateToken } from '../../utils/auth-api';
-import { getCookie } from '../../utils/cookie-service';
 import { getUser } from '../../utils/user-api';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import FeedPage from '../../pages/feed-page/feed-page';
@@ -34,20 +32,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const accessToken = getCookie('accessToken');
-    const refreshToken = getCookie('refreshToken');
-
-    (async () => {
-      if (accessToken) {
-        const isUserGet = await dispatch(getUser(accessToken)).unwrap();
-        if (!isUserGet) {
-          const updateTokens: any = await dispatch(updateToken(refreshToken));
-          if (updateTokens) {
-            dispatch(getUser(updateTokens.accessToken));
-          }
-        }
-      }
-    })();
+    dispatch(getUser());
   }, []);
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import { IIngredientProp } from './types';
 
-export const calculateTotalPrice = (ingredients: IIngredientProp[]): number => ingredients.reduce((sum, current) => sum + current.price, 0);
+export const calculateTotalPrice = (ingredients: IIngredientProp[]): number => ingredients
+  .reduce((sum, current) => sum + current.price, 0);
 
 export const convertDate = (dateStr: string): string => {
   const now = new Date();

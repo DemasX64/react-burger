@@ -4,6 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../services/store';
 import { checkResponse, handleError } from './api-service';
 import { BASE_URL } from './constants';
+import { getCookie } from './cookie-service';
 import { IIngredientProp } from './types';
 
 /* eslint-disable max-len */
@@ -37,6 +38,7 @@ const createOrder = createAsyncThunk(
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
+          Authorization: getCookie('accessToken') || '',
           'Content-type': 'application/json; charset=UTF-8',
         },
       });

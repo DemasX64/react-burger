@@ -1,7 +1,9 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { ChangeEvent, FormEvent } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useLocation, Redirect } from 'react-router-dom';
+import {
+  Link, useLocation, Redirect, useHistory,
+} from 'react-router-dom';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import { setToken, setPassword } from '../../../services/reducers/resetPassword';
 import { RootState } from '../../../services/store';
@@ -11,6 +13,7 @@ import styles from './reset-password.module.css';
 
 const ResetPassword = () => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const password = useSelector((state: RootState) => state.resetPassword.password);
   const token = useSelector((state: RootState) => state.resetPassword.token);
@@ -18,6 +21,7 @@ const ResetPassword = () => {
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(resetPassword({ password, token }));
+    history.replace('/login');
   };
 
   const onChangePasswordHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +45,7 @@ const ResetPassword = () => {
         <p className="text text_type_main-medium">Восстановление пароля</p>
         <Input onChange={onChangePasswordHandler} name="Введите новый пароль" placeholder="Введите новый пароль" value={password} />
         <Input onChange={onChangeTokenHandler} placeholder="Введите код из письма" value={token} />
-        <Button htmlType="submit" type="primary" size="large">Восстановить</Button>
+        <Button htmlType="submit" type="primary" size="large">Сохранить</Button>
       </form>
       <p className="text text_type_main-default mt-20">
         Вспомнили пароль?&nbsp;
