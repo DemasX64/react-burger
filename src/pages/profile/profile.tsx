@@ -11,6 +11,7 @@ import useAppDispatch from '../../hooks/useAppDispatch';
 import Order from '../../components/order/order';
 import useAppSelector from '../../hooks/useAppSelector';
 import { connect, disconnect } from '../../services/reducers/orders';
+import { IUser } from '../../utils/types';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -39,7 +40,7 @@ const Profile = () => {
   };
 
   const onClickSave = async () => {
-    const data = {
+    const data: IUser = {
       name: isNameEditable ? name : '',
       email: isEmailEditable ? email : '',
       password: isPasswordEditable ? password : '',
