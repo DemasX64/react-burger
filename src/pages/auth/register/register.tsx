@@ -1,13 +1,11 @@
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { ChangeEvent, FormEvent } from 'react';
-import { useSelector } from 'react-redux';
-
 import {
   Link, useLocation, Redirect, useHistory,
 } from 'react-router-dom';
 import useAppDispatch from '../../../hooks/useAppDispatch';
+import useAppSelector from '../../../hooks/useAppSelector';
 import { setEmail, setName, setPassword } from '../../../services/reducers/register';
-import { RootState } from '../../../services/store';
 import { register } from '../../../utils/auth-api';
 import { IState } from '../../../utils/types';
 import styles from './register.module.css';
@@ -15,9 +13,9 @@ import styles from './register.module.css';
 const Register = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const nameInput = useSelector((state: RootState) => state.register.nameInput);
-  const passwordInput = useSelector((state: RootState) => state.register.passwordInput);
-  const emailInput = useSelector((state: RootState) => state.register.emailInput);
+  const nameInput = useAppSelector((state) => state.register.nameInput);
+  const passwordInput = useAppSelector((state) => state.register.passwordInput);
+  const emailInput = useAppSelector((state) => state.register.emailInput);
 
   const onChangeNameInput = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setName(e.target.value));
@@ -38,7 +36,7 @@ const Register = () => {
     dispatch(register(user)).then(() => history.replace('/login'));
   };
 
-  const isLogged = useSelector((state: RootState) => state.auth.isLogged);
+  const isLogged = useAppSelector((state) => state.auth.isLogged);
   const { state } = useLocation<IState>();
   if (isLogged) {
     return (

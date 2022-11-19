@@ -5,7 +5,6 @@ import { RootState } from '../services/store';
 import { checkResponse, handleError } from './api-service';
 import { BASE_URL } from './constants';
 import { getCookie } from './cookie-service';
-import { IIngredientProp } from './types';
 
 /* eslint-disable max-len */
 const getIngredientsReq = `${BASE_URL}ingredients`;
@@ -30,7 +29,7 @@ const createOrder = createAsyncThunk(
   async (data, { getState, rejectWithValue }) => {
     try {
       const body = {
-        ingredients: (getState() as RootState).burgerConstructor.constructor.map((item: IIngredientProp) => item._id),
+        ingredients: (getState() as RootState).burgerConstructor.constructor.map((item) => item._id),
       };
       body.ingredients.push((getState() as RootState).burgerConstructor.bun._id);
       body.ingredients.unshift((getState() as RootState).burgerConstructor.bun._id);

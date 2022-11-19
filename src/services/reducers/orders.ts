@@ -16,10 +16,14 @@ const initialState:IFeedSliceState = {
   totalToday: 0,
 };
 
-export const feedSlice = createSlice({
-  name: 'feed',
+export const ordersSlice = createSlice({
+  name: 'orders',
   initialState,
   reducers: {
+    connect(state, action) {
+    },
+    disconnect() {
+    },
     setIsConnected(state, action) {
       state.isConnected = action.payload;
     },
@@ -29,10 +33,9 @@ export const feedSlice = createSlice({
       state.totalToday = action.payload.totalToday;
     },
   },
-  extraReducers: (builder) => {
-
-  },
 });
 
-export const { setIsConnected, setData } = feedSlice.actions;
-export default feedSlice.reducer;
+export const {
+  connect, setIsConnected, setData, disconnect,
+} = ordersSlice.actions;
+export default ordersSlice.reducer;

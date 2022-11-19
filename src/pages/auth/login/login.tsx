@@ -1,21 +1,20 @@
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { ChangeEvent, FormEvent } from 'react';
-import { useSelector } from 'react-redux';
 import {
   Link, Redirect, useLocation,
 } from 'react-router-dom';
 import useAppDispatch from '../../../hooks/useAppDispatch';
+import useAppSelector from '../../../hooks/useAppSelector';
 import { setEmail, setPassword } from '../../../services/reducers/login';
-import { RootState } from '../../../services/store';
 import { login } from '../../../utils/auth-api';
 import { IState } from '../../../utils/types';
 import styles from './login.module.css';
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const emailInput = useSelector((store: RootState) => store.login.emailInput);
-  const passwordInput = useSelector((store: RootState) => store.login.passwordInput);
-  const isLogged = useSelector((state: RootState) => state.auth.isLogged);
+  const emailInput = useAppSelector((store) => store.login.emailInput);
+  const passwordInput = useAppSelector((store) => store.login.passwordInput);
+  const isLogged = useAppSelector((state) => state.auth.isLogged);
   const { state } = useLocation<IState>();
   if (isLogged) {
     return (

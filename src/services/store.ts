@@ -10,8 +10,8 @@ import forgotPasswordReducer from './reducers/forgotPassword';
 import authReducer from './reducers/auth';
 import registerReducer from './reducers/register';
 import loginReducer from './reducers/login';
-import feedReducer from './reducers/feed';
-import profileFeedReducer from './reducers/profileFeed';
+import ordersReducer from './reducers/orders';
+import { socketMiddleware } from '../middleware/socketMiddleware';
 
 const store = configureStore({
   reducer: {
@@ -25,9 +25,9 @@ const store = configureStore({
     auth: authReducer,
     register: registerReducer,
     login: loginReducer,
-    feed: feedReducer,
-    profileFeed: profileFeedReducer,
+    orders: ordersReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(socketMiddleware()),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

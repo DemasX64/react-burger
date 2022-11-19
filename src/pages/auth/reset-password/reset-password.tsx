@@ -1,22 +1,27 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { ChangeEvent, FormEvent } from 'react';
-import { useSelector } from 'react-redux';
+import React, { ChangeEvent, FormEvent, useEffect } from 'react';
 import {
   Link, useLocation, Redirect, useHistory,
 } from 'react-router-dom';
 import useAppDispatch from '../../../hooks/useAppDispatch';
+import useAppSelector from '../../../hooks/useAppSelector';
 import { setToken, setPassword } from '../../../services/reducers/resetPassword';
-import { RootState } from '../../../services/store';
 import { resetPassword } from '../../../utils/auth-api';
 import { IState } from '../../../utils/types';
 import styles from './reset-password.module.css';
 
 const ResetPassword = () => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const history = useHistory<{prevPage?: string}>();
 
-  const password = useSelector((state: RootState) => state.resetPassword.password);
-  const token = useSelector((state: RootState) => state.resetPassword.token);
+  useEffect(() => {
+    if (history.location.state.prevPage !== 'forgot-password') {
+      history.replace('forgot-password');
+    }
+  }, []);
+
+  const password = useAppSelector((state) => state.resetPassword.password);
+  const token = useAppSelector((state) => state.resetPassword.token);
 
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,7 +36,7 @@ const ResetPassword = () => {
     dispatch(setToken(e.target.value));
   };
 
-  const isLogged = useSelector((state: RootState) => state.auth.isLogged);
+  const isLogged = useAppSelector((state) => state.auth.isLogged);
   const { state } = useLocation<IState>();
   if (isLogged) {
     return (

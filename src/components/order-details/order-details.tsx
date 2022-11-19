@@ -1,15 +1,14 @@
 import '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import useAppDispatch from '../../hooks/useAppDispatch';
+import useAppSelector from '../../hooks/useAppSelector';
 import done from '../../images/done.png';
-import { RootState } from '../../services/store';
 import { createOrder } from '../../utils/burger-api';
 
 const OrderDetails = () => {
   const dispatch = useAppDispatch();
-  const order = useSelector((state: RootState) => state.orderDetails.order);
-  const isReady = useSelector((state: RootState) => state.orderDetails.createOrderRequest);
+  const order = useAppSelector((state) => state.orderDetails.order);
+  const isReady = useAppSelector((state) => state.orderDetails.createOrderRequest);
 
   useEffect(() => {
     dispatch(createOrder());

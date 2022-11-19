@@ -2,11 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { checkResponse, handleError } from './api-service';
 import { BASE_URL } from './constants';
 import { getCookie } from './cookie-service';
+import { IUser } from './types';
 
 /* eslint-disable max-len */
 const userReq = `${BASE_URL}auth/user`;
 
-export const getUser = createAsyncThunk<any>(
+export const getUser = createAsyncThunk(
   'auth/getUser',
   async (data, { rejectWithValue }) => {
     try {
@@ -24,9 +25,9 @@ export const getUser = createAsyncThunk<any>(
     }
   },
 );
-export const updateUser = createAsyncThunk<any, any, any>(
+export const updateUser = createAsyncThunk(
   'auth/updateUser',
-  async (data, { rejectWithValue }) => {
+  async (data: IUser, { rejectWithValue }) => {
     try {
       const body: any = {};
       if (data.email) {
@@ -42,7 +43,7 @@ export const updateUser = createAsyncThunk<any, any, any>(
         method: 'PATCH',
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
-          authorization: data.token,
+          authorization: data.token || '',
         },
         body: JSON.stringify(body),
       });

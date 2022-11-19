@@ -3,10 +3,9 @@
 /* eslint-disable camelcase */
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { FC, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import useAppSelector from '../../hooks/useAppSelector';
 import useStatusColor from '../../hooks/useStatusColor';
-import { RootState } from '../../services/store';
 import { IIngredientProp } from '../../utils/types';
 import { calculateTotalPrice, convertDate } from '../../utils/utils';
 import styles from './order.module.css';
@@ -32,7 +31,7 @@ const Order: FC<IOrderProps> = (props) => {
   } = styles;
   const [ingredientsObj, setIngredientsObj] = useState<IIngredientProp[]>([]);
   const [price, setPrice] = useState(0);
-  const allIngredients = useSelector((store: RootState) => store.ingredients.ingredients);
+  const allIngredients = useAppSelector((store) => store.ingredients.ingredients);
 
   const { statusColor, statusText } = useStatusColor(status);
 
@@ -55,8 +54,8 @@ const Order: FC<IOrderProps> = (props) => {
     <Link
       className={link}
       to={{
-        pathname: `/feed/${_id}`,
-        state: { background: location },
+        pathname: `${location.pathname}/${_id}`,
+        state: location.pathname === '/feed' ? { background: location } : null,
       }}
     >
       <div className={container}>
@@ -70,7 +69,7 @@ const Order: FC<IOrderProps> = (props) => {
         </div>
         <div className={footer}>
           <div className={footerIngredients}>
-            {ingredientsObj.slice().reverse().map((ingredient, index:number) => {
+            {ingredientsObj.slice().reverse().map((ingredient, index) => {
               const { image_mobile } = ingredient;
               return index === 0
                 && maxElements !== ingredients.length

@@ -1,10 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
-import { useSelector } from 'react-redux';
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './ingredients-details.module.css';
-import { RootState } from '../../services/store';
+import useAppSelector from '../../hooks/useAppSelector';
 
 const IngredientsDetails = () => {
   const params = useParams<{id:string}>();
@@ -15,7 +14,7 @@ const IngredientsDetails = () => {
   let fat = 0;
   let carbohydrates = 0;
   let calories = 0;
-  const ingredients = useSelector((state: RootState) => state.ingredients.ingredients);
+  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
   useMemo(() => {
     if (ingredients.length !== 0) {
       const ingredient = ingredients.find((el) => el._id === params.id);

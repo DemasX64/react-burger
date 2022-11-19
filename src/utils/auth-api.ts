@@ -9,9 +9,9 @@ const registerReq = `${BASE_URL}auth/register`;
 const forgotPasswordReq = `${BASE_URL}password-reset`;
 const resetPasswordReq = `${BASE_URL}password-reset/reset`;
 
-export const forgotPassword = createAsyncThunk<{email: string}, {}, {}>(
+export const forgotPassword = createAsyncThunk(
   'auth/forgotPassword',
-  async (data, { rejectWithValue }) => {
+  async (data: string, { rejectWithValue }) => {
     try {
       const body = {
         email: data,
@@ -32,7 +32,7 @@ export const forgotPassword = createAsyncThunk<{email: string}, {}, {}>(
   },
 );
 
-export const resetPassword = createAsyncThunk<any, any, any>(
+export const resetPassword = createAsyncThunk(
   'resetPassword/resetPassword',
   async (data:{ password:string, token:string}, { rejectWithValue }) => {
     try {
@@ -55,7 +55,7 @@ export const resetPassword = createAsyncThunk<any, any, any>(
     }
   },
 );
-export const login = createAsyncThunk<any, any, any>(
+export const login = createAsyncThunk(
   'auth/login',
   async (data:{email:string, password:string}, { rejectWithValue }) => {
     try {
@@ -79,7 +79,7 @@ export const login = createAsyncThunk<any, any, any>(
     }
   },
 );
-export const register = createAsyncThunk<any, any, any>(
+export const register = createAsyncThunk(
   'auth/register',
   async (data:{email:string, password:string, name:string}, { rejectWithValue }) => {
     try {
@@ -103,9 +103,9 @@ export const register = createAsyncThunk<any, any, any>(
     }
   },
 );
-export const logout = createAsyncThunk<any, any, any>(
+export const logout = createAsyncThunk(
   'auth/logout',
-  async (data, { rejectWithValue }) => {
+  async (data: string, { rejectWithValue }) => {
     try {
       const body = {
         token: data,
@@ -125,9 +125,9 @@ export const logout = createAsyncThunk<any, any, any>(
     }
   },
 );
-export const updateToken = createAsyncThunk<any, any, any>(
+export const updateToken = createAsyncThunk(
   'auth/updateToken',
-  async (data, { rejectWithValue }) => {
+  async (data: string, { rejectWithValue }) => {
     try {
       const body = {
         token: data,

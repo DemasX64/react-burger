@@ -3,27 +3,26 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './burger-ingredient.module.css';
 import { IIngredientProp } from '../../utils/types';
-import { RootState } from '../../services/store';
+import useAppSelector from '../../hooks/useAppSelector';
 
 interface IBurgerIngredientProps {
   ingredient: IIngredientProp
 }
 
 const BurgerIngredient: FC<IBurgerIngredientProps> = ({ ingredient }) => {
-  const count = useSelector((state:RootState) => {
+  const count = useAppSelector((state) => {
     if (ingredient.type === 'bun') {
       if (state.burgerConstructor.bun._id === ingredient._id) {
         return 2;
       }
       return 0;
     }
-    return state.burgerConstructor.constructor.reduce((sum: number, number:IIngredientProp) => {
+    return state.burgerConstructor.constructor.reduce((sum, number) => {
       if (number._id === ingredient._id) {
         return sum + 1;
       } return sum;

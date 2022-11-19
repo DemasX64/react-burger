@@ -1,11 +1,14 @@
+/* eslint-disable consistent-return */
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-underscore-dangle */
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { FC, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import useAppDispatch from '../../hooks/useAppDispatch';
+import useAppSelector from '../../hooks/useAppSelector';
 import useStatusColor from '../../hooks/useStatusColor';
-import { RootState } from '../../services/store';
+import { connect, disconnect } from '../../services/reducers/orders';
 import { IIngredientProp, IOrder } from '../../utils/types';
 import { calculateTotalPrice, convertDate } from '../../utils/utils';
 import styles from './order-page.module.css';
@@ -18,11 +21,12 @@ interface IOrderPage {
 const OrderPage: FC<IOrderPage> = ({ setOrderNumber }) => {
   const { id } = useParams<{id:string}>();
 
-  const orders = useSelector((state: RootState) => state.feed.orders);
+  const orders = useAppSelector((state) => state.orders.orders);
   const [order, setOrder] = useState<IOrder | null>(null);
-  const allIngredients = useSelector((store: RootState) => store.ingredients.ingredients);
+  const allIngredients = useAppSelector((store) => store.ingredients.ingredients);
   const [ingredientsObj, setIngredientsObj] = useState<(IIngredientProp & {count: number})[]>([]);
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const foundedOrder = orders.find((el) => el._id === id);
@@ -51,6 +55,15 @@ const OrderPage: FC<IOrderPage> = ({ setOrderNumber }) => {
     }
   }, [order]);
 
+  useEffect(() => {
+    if (!setOrderNumber) {
+      dispatch(connect('wss://norma.nomoreparties.space/orders/all'));
+      return () => {
+        dispatch(disconnect());
+      };
+    }
+  }, []);
+
   const { statusColor, statusText } = useStatusColor(order?.status);
 
   const orderNotFound = () => {
@@ -74,10 +87,10 @@ const OrderPage: FC<IOrderPage> = ({ setOrderNumber }) => {
         <div className={ingredientsList}>
           {ingredientsObj.map((ingredient) => {
             const {
-              _id, name, price, count,
+              name, price, count,
             } = ingredient;
             return (
-              <div key={_id} className={ingredientContainer}>
+              <div key={uuidv4()} className={ingredientContainer}>
                 <img className={ingredientIcon} src={ingredient.image_mobile} alt="" />
                 <p className={`text text_type_main-default ${ingredientName}`}>{name}</p>
                 <div className={priceContainer}>

@@ -43,3 +43,10 @@ export interface IOrderStatistic {
   total: number,
   totalToday: number,
 }
+
+export interface IUser {
+  name: string,
+  email: string,
+  password: string,
+  token: string | undefined
+}

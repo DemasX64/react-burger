@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import Order from '../../components/order/order';
-import { RootState } from '../../services/store';
+import useAppDispatch from '../../hooks/useAppDispatch';
+import useAppSelector from '../../hooks/useAppSelector';
+import { connect, disconnect } from '../../services/reducers/orders';
 import styles from './feed-page.module.css';
 
 const FeedPage = () => {
-  const total = useSelector((state: RootState) => state.feed.total);
-  const totalToday = useSelector((state: RootState) => state.feed.totalToday);
-  const orders = useSelector((state: RootState) => state.feed.orders);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(connect('wss://norma.nomoreparties.space/orders/all'));
+    return () => { dispatch(disconnect()); };
+  }, []);
+
+  const total = useAppSelector((state) => state.orders.total);
+  const totalToday = useAppSelector((state) => state.orders.totalToday);
+  const orders = useAppSelector((state) => state.orders.orders);
 
   const [ready, setReady] = useState<number[]>([]);
   const [work, setWork] = useState<number[]>([]);
@@ -41,7 +49,7 @@ const FeedPage = () => {
       <p className={`text text_type_main-large ${header}`}>Лента заказов</p>
       <div className={container}>
         <div className={ordersContainer}>
-          {orders.map((order) => {
+          {orders && orders.map((order) => {
             const {
               createdAt, name, number, _id, ingredients,
             } = order;

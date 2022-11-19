@@ -20,7 +20,6 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 import { getUser } from '../../utils/user-api';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import FeedPage from '../../pages/feed-page/feed-page';
-import { setData, setIsConnected } from '../../services/reducers/feed';
 import OrderPage from '../order-page/order-page';
 
 const App = () => {
@@ -33,23 +32,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getUser());
-  }, []);
-
-  useEffect(() => {
-    const ws = new WebSocket('wss://norma.nomoreparties.space/orders/all');
-    ws.onopen = () => {
-      dispatch(setIsConnected(true));
-    };
-    ws.onmessage = (event: MessageEvent) => {
-      console.log(`Получены данные: ${JSON.parse(event.data)}`);
-      dispatch(setData(JSON.parse(event.data)));
-    };
-    ws.onclose = () => {
-      dispatch(setIsConnected(false));
-    };
-    ws.onerror = () => {
-      dispatch(setIsConnected(false));
-    };
   }, []);
 
   const location = useLocation<any>();
@@ -84,6 +66,9 @@ const App = () => {
         <Route path="/reset-password">
           <ResetPassword />
         </Route>
+        <ProtectedRoute path="/profile/orders/:id">
+          <OrderPage />
+        </ProtectedRoute>
         <ProtectedRoute path="/profile">
           <Profile />
         </ProtectedRoute>
