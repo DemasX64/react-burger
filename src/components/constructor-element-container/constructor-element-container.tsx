@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { FC, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import styles from './constructor-element-container.module.css';
 import { removeIngredientFromConstructor, swapItems } from '../../services/reducers/constructor';
 import { IIngredientProp } from '../../utils/types';
+import useAppDispatch from '../../hooks/useAppDispatch';
 
 interface IConstructorElementContainerProps {
   ingredient: IIngredientProp,
@@ -22,7 +22,7 @@ const ConstructorElementContainer: FC<IConstructorElementContainerProps> = (prop
   } = ingredient;
   const ref = useRef<HTMLLIElement>(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [, refDrag] = useDrag({
     type: 'constructor',
     item: { ...ingredient, index },

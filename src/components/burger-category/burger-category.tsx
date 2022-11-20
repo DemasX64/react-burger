@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 import React, { FC } from 'react';
 import { InView } from 'react-intersection-observer';
-import { useDispatch } from 'react-redux';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import styles from './burger-category.module.css';
 import { setBunInView, setMainInView, setSauceInView } from '../../services/reducers';
 import { CATEGORIES } from '../../utils/constants';
 import { IIngredientProp } from '../../utils/types';
+import useAppDispatch from '../../hooks/useAppDispatch';
 
 interface IBurgerCategoryProps {
   ingredients: Array<IIngredientProp>,
@@ -15,7 +15,7 @@ interface IBurgerCategoryProps {
 }
 
 const BurgerCategory: FC<IBurgerCategoryProps> = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { title, id, ingredients } = props;
   const onChangeTabHandle = (inView: boolean) => {
     switch (title) {

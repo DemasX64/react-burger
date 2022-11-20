@@ -1,15 +1,15 @@
 /* eslint-disable max-len */
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import BurgerCategory from '../burger-category/burger-category';
 import styles from './burger-ingredients.module.css';
 import { setCurrentTab } from '../../services/reducers';
 import { CATEGORIES } from '../../utils/constants';
 import useAppSelector from '../../hooks/useAppSelector';
+import useAppDispatch from '../../hooks/useAppDispatch';
 
 const BurgerIngredients = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const currentTab = useAppSelector((state) => state.burger.currentTab);
 
   const setCurrentTabHandler = (value: string) => {

@@ -4,7 +4,6 @@ import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-de
 import React, { useMemo } from 'react';
 import { useDrop } from 'react-dnd';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import OrderDetails from '../order-details/order-details';
 import styles from './burger-constructor.module.css';
@@ -13,6 +12,7 @@ import ConstructorElementContainer from '../constructor-element-container/constr
 import { toggleOrderDetails } from '../../services/reducers/order-details';
 import { IIngredientProp } from '../../utils/types';
 import useAppSelector from '../../hooks/useAppSelector';
+import useAppDispatch from '../../hooks/useAppDispatch';
 
 const BurgerConstructor = () => {
   const isLogged = useAppSelector((state) => state.auth.isLogged);
@@ -31,7 +31,7 @@ const BurgerConstructor = () => {
     [ingredients, bun],
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const isOrderDetailsOpen = useAppSelector((state) => state.orderDetails.isOrderDetailsOpen);
 
