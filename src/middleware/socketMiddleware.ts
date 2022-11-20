@@ -2,7 +2,9 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable import/prefer-default-export */
 import type { Middleware, MiddlewareAPI } from 'redux';
-import { setData, setIsConnected } from '../services/reducers/orders';
+import {
+  connect, setData, setIsConnected, disconnect,
+} from '../services/reducers/orders';
 import { AppDispatch, RootState } from '../services/store';
 
 export const socketMiddleware = (): Middleware => {
@@ -11,11 +13,11 @@ export const socketMiddleware = (): Middleware => {
 
     return (next) => (action) => {
       const { dispatch } = store;
-      if (action.type === 'orders/connect') {
+      if (action.type === connect.type) {
         socket = new WebSocket(action.payload);
       }
       if (socket) {
-        if (action.type === 'orders/disconnect') {
+        if (action.type === disconnect.type) {
           socket.close();
         }
         socket.onopen = () => {
