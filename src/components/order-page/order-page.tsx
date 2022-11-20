@@ -36,6 +36,7 @@ const OrderPage: FC<IOrderPage> = ({ setOrderNumber }) => {
   }, [orders]);
 
   useEffect(() => {
+    setIngredientsObj([]);
     const countedOrders:{[key:string]:number} = {};
     order?.ingredients.forEach((el) => {
       countedOrders[el] = (countedOrders[el] || 0) + 1;
