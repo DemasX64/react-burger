@@ -9,6 +9,7 @@ import useAppDispatch from '../../hooks/useAppDispatch';
 import useAppSelector from '../../hooks/useAppSelector';
 import useStatusColor from '../../hooks/useStatusColor';
 import { connect, disconnect } from '../../services/reducers/orders';
+import { WS_BASE_URL } from '../../utils/constants';
 import { IIngredientProp, IOrder } from '../../utils/types';
 import { calculateTotalPrice, convertDate } from '../../utils/utils';
 import styles from './order-page.module.css';
@@ -58,7 +59,7 @@ const OrderPage: FC<IOrderPage> = ({ setOrderNumber }) => {
 
   useEffect(() => {
     if (!setOrderNumber) {
-      dispatch(connect('wss://norma.nomoreparties.space/orders/all'));
+      dispatch(connect(`${WS_BASE_URL}orders/all`));
       return () => {
         dispatch(disconnect());
       };

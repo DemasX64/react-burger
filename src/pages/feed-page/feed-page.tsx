@@ -3,13 +3,14 @@ import Order from '../../components/order/order';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import useAppSelector from '../../hooks/useAppSelector';
 import { connect, disconnect } from '../../services/reducers/orders';
+import { WS_BASE_URL } from '../../utils/constants';
 import styles from './feed-page.module.css';
 
 const FeedPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(connect('wss://norma.nomoreparties.space/orders/all'));
+    dispatch(connect(`${WS_BASE_URL}orders/all`));
     return () => { dispatch(disconnect()); };
   }, []);
 

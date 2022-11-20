@@ -12,6 +12,7 @@ import Order from '../../components/order/order';
 import useAppSelector from '../../hooks/useAppSelector';
 import { connect, disconnect } from '../../services/reducers/orders';
 import { IUser } from '../../utils/types';
+import { WS_BASE_URL } from '../../utils/constants';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -67,7 +68,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    dispatch(connect(`wss://norma.nomoreparties.space/orders?token=${getCookie('accessToken')?.split(' ')[1]}`));
+    dispatch(connect(`${WS_BASE_URL}orders?token=${getCookie('accessToken')?.split(' ')[1]}`));
     return () => { dispatch(disconnect()); };
   }, []);
 
