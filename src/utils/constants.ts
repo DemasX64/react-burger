@@ -8,10 +8,10 @@ const PAGES = {
   ORDERS: 2,
   PROFILE: 3,
 };
-const escKeyCode = 27;
+const escKey = 'Escape';
 
 const BASE_URL = 'https://norma.nomoreparties.space/api/';
 
 export {
-  CATEGORIES, PAGES, escKeyCode, BASE_URL,
+  CATEGORIES, PAGES, escKey, BASE_URL,
 };

@@ -4,7 +4,7 @@
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect, FC } from 'react';
 import styles from './modal.module.css';
-import { escKeyCode } from '../../utils/constants';
+import { escKey } from '../../utils/constants';
 
 interface IModalProps {
   type: 'number'|'string',
@@ -26,7 +26,7 @@ const Modal: FC<IModalProps> = (props) => {
 
   useEffect(() => {
     const closeModal = (e: KeyboardEvent) => {
-      if (e.keyCode === escKeyCode) {
+      if (e.key === escKey) {
         onClick();
       }
     };
