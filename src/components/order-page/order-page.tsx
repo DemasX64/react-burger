@@ -62,7 +62,6 @@ const OrderPage: FC<IOrderPage> = ({ setOrderNumber }) => {
 
   useEffect(() => {
     if (!setOrderNumber) {
-      console.log('connect');
       const url = location.pathname.includes('profile') ? `?token=${getCookie('accessToken')?.split(' ')[1]}` : '/all';
       dispatch(connect(`${WS_BASE_URL}orders${url}`));
       return () => {
