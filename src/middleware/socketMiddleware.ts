@@ -2,14 +2,15 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable import/prefer-default-export */
 import type { Middleware, MiddlewareAPI } from 'redux';
-import {
-  connect, setData, setIsConnected, disconnect,
-} from '../services/reducers/orders';
+import { wsActions } from '../services/reducers/websocket';
 import { AppDispatch, RootState } from '../services/store';
 
-export const socketMiddleware = (): Middleware => {
+export const socketMiddleware = (wsAction: wsActions): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
+    const {
+      connect, disconnect, setIsConnected, setData,
+    } = wsAction;
 
     return (next) => (action) => {
       const { dispatch } = store;

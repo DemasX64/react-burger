@@ -10,7 +10,7 @@ import forgotPasswordReducer from './reducers/forgotPassword';
 import authReducer from './reducers/auth';
 import registerReducer from './reducers/register';
 import loginReducer from './reducers/login';
-import ordersReducer from './reducers/orders';
+import ordersReducer, { ordersSlice } from './reducers/orders';
 import { socketMiddleware } from '../middleware/socketMiddleware';
 
 const store = configureStore({
@@ -27,7 +27,8 @@ const store = configureStore({
     login: loginReducer,
     orders: ordersReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(socketMiddleware()),
+  // eslint-disable-next-line max-len
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(socketMiddleware(ordersSlice.actions)),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
