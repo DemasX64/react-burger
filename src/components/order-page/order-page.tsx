@@ -10,6 +10,7 @@ import useAppSelector from '../../hooks/useAppSelector';
 import useStatusColor from '../../hooks/useStatusColor';
 import { connect, disconnect } from '../../services/reducers/orders';
 import { WS_BASE_URL } from '../../utils/constants';
+import { getCookie } from '../../utils/cookie-service';
 import { IIngredientProp, IOrder } from '../../utils/types';
 import { calculateTotalPrice, convertDate } from '../../utils/utils';
 import styles from './order-page.module.css';
@@ -30,9 +31,11 @@ const OrderPage: FC<IOrderPage> = ({ setOrderNumber }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const foundedOrder = orders.find((el) => el._id === id);
-    if (foundedOrder) {
-      setOrder(foundedOrder);
+    if (orders) {
+      const foundedOrder = orders.find((el) => el._id === id);
+      if (foundedOrder) {
+        setOrder(foundedOrder);
+      }
     }
   }, [orders]);
 
@@ -59,7 +62,9 @@ const OrderPage: FC<IOrderPage> = ({ setOrderNumber }) => {
 
   useEffect(() => {
     if (!setOrderNumber) {
-      dispatch(connect(`${WS_BASE_URL}orders/all`));
+      console.log('connect');
+      const url = location.pathname.includes('profile') ? `?token=${getCookie('accessToken')?.split(' ')[1]}` : '/all';
+      dispatch(connect(`${WS_BASE_URL}orders${url}`));
       return () => {
         dispatch(disconnect());
       };

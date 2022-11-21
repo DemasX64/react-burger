@@ -55,7 +55,8 @@ const Order: FC<IOrderProps> = (props) => {
       className={link}
       to={{
         pathname: `${location.pathname}/${_id}`,
-        state: location.pathname === '/feed' ? { background: location } : null,
+        // state: location.pathname === '/feed' ? { background: location } : null,
+        state: { background: location },
       }}
     >
       <div className={container}>

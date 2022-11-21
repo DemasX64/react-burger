@@ -85,6 +85,7 @@ const App = () => {
       </Switch>
       { background && <Route path="/ingredients/:id"><ModalOverlay type="string" title="Детали ингредиента" onClick={() => history.goBack()}><IngredientsDetails /></ModalOverlay></Route>}
       { background && <Route path="/feed/:id"><ModalOverlay type="number" title={`#${orderNumber}`} onClick={() => history.goBack()}><OrderPage setOrderNumber={setOrderNumber} /></ModalOverlay></Route>}
+      { background && <ProtectedRoute path="/profile/orders/:id"><ModalOverlay type="number" title={`#${orderNumber}`} onClick={() => history.goBack()}><OrderPage setOrderNumber={setOrderNumber} /></ModalOverlay></ProtectedRoute>}
 
     </>
   );
