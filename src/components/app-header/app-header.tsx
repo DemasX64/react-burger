@@ -13,7 +13,7 @@ const AppHeader = () => (
       </div>
       <nav className={styles.nav}>
         <NavItem isExact title="Конструктор" to="/"><BurgerIcon type="secondary" /></NavItem>
-        <NavItem isExact={false} title="Лента заказов" to="/order"><ListIcon type="secondary" /></NavItem>
+        <NavItem isExact={false} title="Лента заказов" to="/feed"><ListIcon type="secondary" /></NavItem>
         <div className={styles.filler} />
         <NavItem isExact={false} title="Личный кабинет" to="/profile"><ProfileIcon type="secondary" /></NavItem>
       </nav>

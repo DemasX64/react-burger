@@ -4,7 +4,6 @@ import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-de
 import React, { useMemo } from 'react';
 import { useDrop } from 'react-dnd';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import OrderDetails from '../order-details/order-details';
 import styles from './burger-constructor.module.css';
@@ -12,14 +11,15 @@ import { addIngredientToConstructor, setBun } from '../../services/reducers/cons
 import ConstructorElementContainer from '../constructor-element-container/constructor-element-container';
 import { toggleOrderDetails } from '../../services/reducers/order-details';
 import { IIngredientProp } from '../../utils/types';
-import { RootState } from '../../services/store';
+import useAppSelector from '../../hooks/useAppSelector';
+import useAppDispatch from '../../hooks/useAppDispatch';
 
 const BurgerConstructor = () => {
-  const isLogged = useSelector((state: RootState) => state.auth.isLogged);
+  const isLogged = useAppSelector((state) => state.auth.isLogged);
   const history = useHistory();
 
-  const bun = useSelector((state: RootState) => state.burgerConstructor.bun);
-  const ingredients = useSelector((state: RootState) => state.burgerConstructor.constructor);
+  const bun = useAppSelector((state) => state.burgerConstructor.bun);
+  const ingredients = useAppSelector((state) => state.burgerConstructor.constructor);
 
   const { name, price, image_mobile } = bun;
 
@@ -31,9 +31,9 @@ const BurgerConstructor = () => {
     [ingredients, bun],
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const isOrderDetailsOpen = useSelector((state: RootState) => state.orderDetails.isOrderDetailsOpen);
+  const isOrderDetailsOpen = useAppSelector((state) => state.orderDetails.isOrderDetailsOpen);
 
   const toggleOrderDetailsHandler = () => {
     if (isLogged) {
@@ -81,7 +81,7 @@ const BurgerConstructor = () => {
           <CurrencyIcon type="primary" />
         </div>
         <Button htmlType="submit" type="primary" size="large" onClick={toggleOrderDetailsHandler}>Оформить заказ</Button>
-        {isOrderDetailsOpen && <ModalOverlay onClick={toggleOrderDetailsHandler}><OrderDetails /></ModalOverlay>}
+        {isOrderDetailsOpen && <ModalOverlay type="string" onClick={toggleOrderDetailsHandler}><OrderDetails /></ModalOverlay>}
       </div>
     </section>
   );

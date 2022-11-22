@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {
   Route, Switch, useLocation, useHistory,
 } from 'react-router-dom';
-import ForgotPassword from '../../pages/auth/reset-password/reset-password';
+import ResetPassword from '../../pages/auth/reset-password/reset-password';
 import Login from '../../pages/auth/login/login';
 import Register from '../../pages/auth/register/register';
-import ResetPassword from '../../pages/auth/forgot-password/forgot-password';
+import ForgotPassword from '../../pages/auth/forgot-password/forgot-password';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import Profile from '../../pages/profile/profile';
 import { getIngredients } from '../../utils/burger-api';
@@ -17,10 +17,10 @@ import IngredientsDetails from '../ingredients-details/ingredients-details';
 import styles from './app.module.css';
 import ProtectedRoute from '../protected-route/protected-route';
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import { updateToken } from '../../utils/auth-api';
-import { getCookie } from '../../utils/cookie-service';
 import { getUser } from '../../utils/user-api';
 import useAppDispatch from '../../hooks/useAppDispatch';
+import FeedPage from '../../pages/feed-page/feed-page';
+import OrderPage from '../order-page/order-page';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -31,25 +31,14 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const accessToken = getCookie('accessToken');
-    const refreshToken = getCookie('refreshToken');
-
-    (async () => {
-      if (accessToken) {
-        const isUserGet = await dispatch(getUser(accessToken)).unwrap();
-        if (!isUserGet) {
-          const updateTokens: any = await dispatch(updateToken(refreshToken));
-          if (updateTokens) {
-            dispatch(getUser(updateTokens.accessToken));
-          }
-        }
-      }
-    })();
+    dispatch(getUser());
   }, []);
 
   const location = useLocation<any>();
 
   const background = location.state && location.state.background;
+
+  const [orderNumber, setOrderNumber] = useState(0);
 
   return (
     <>
@@ -61,6 +50,9 @@ const App = () => {
               <BurgerConstructor />
             </DndProvider>
           </main>
+        </Route>
+        <Route path="/feed" exact>
+          <FeedPage />
         </Route>
         <Route path="/login">
           <Login />
@@ -74,6 +66,9 @@ const App = () => {
         <Route path="/reset-password">
           <ResetPassword />
         </Route>
+        <ProtectedRoute path="/profile/orders/:id">
+          <OrderPage />
+        </ProtectedRoute>
         <ProtectedRoute path="/profile">
           <Profile />
         </ProtectedRoute>
@@ -81,11 +76,17 @@ const App = () => {
           <p className={`text text_type_main-large mt-45 ${styles.ingredientDetailsTitle}`}>Детали ингредиента</p>
           <IngredientsDetails />
         </Route>
+        <Route path="/feed/:id">
+          <OrderPage />
+        </Route>
         <Route>
           <NotFoundPage />
         </Route>
       </Switch>
-      { background && <Route path="/ingredients/:id"><ModalOverlay title="Детали ингредиента" onClick={() => history.goBack()}><IngredientsDetails /></ModalOverlay></Route>}
+      { background && <Route path="/ingredients/:id"><ModalOverlay type="string" title="Детали ингредиента" onClick={() => history.goBack()}><IngredientsDetails /></ModalOverlay></Route>}
+      { background && <Route path="/feed/:id"><ModalOverlay type="number" title={`#${orderNumber}`} onClick={() => history.goBack()}><OrderPage setOrderNumber={setOrderNumber} /></ModalOverlay></Route>}
+      { background && <ProtectedRoute path="/profile/orders/:id"><ModalOverlay type="number" title={`#${orderNumber}`} onClick={() => history.goBack()}><OrderPage setOrderNumber={setOrderNumber} /></ModalOverlay></ProtectedRoute>}
+
     </>
   );
 };

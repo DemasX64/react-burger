@@ -1,21 +1,21 @@
 /* eslint-disable max-len */
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import BurgerCategory from '../burger-category/burger-category';
 import styles from './burger-ingredients.module.css';
 import { setCurrentTab } from '../../services/reducers';
 import { CATEGORIES } from '../../utils/constants';
-import { RootState } from '../../services/store';
+import useAppSelector from '../../hooks/useAppSelector';
+import useAppDispatch from '../../hooks/useAppDispatch';
 
 const BurgerIngredients = () => {
-  const dispatch = useDispatch();
-  const currentTab = useSelector((state: RootState) => state.burger.currentTab);
+  const dispatch = useAppDispatch();
+  const currentTab = useAppSelector((state) => state.burger.currentTab);
 
   const setCurrentTabHandler = (value: string) => {
     dispatch(setCurrentTab(value));
   };
-  const ingredients = useSelector((state: RootState) => state.ingredients.ingredients);
+  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
 
   const main = ingredients.filter((ingredient) => ingredient.type === CATEGORIES.MAIN.TYPE);
   const bun = ingredients.filter((ingredient) => ingredient.type === CATEGORIES.BUN.TYPE);
