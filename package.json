@@ -1,5 +1,6 @@
 {
   "name": "react-burger",
+  "homepage": "https://demasx64.github.io/react-burger",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -28,6 +29,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -52,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.2.2",
     "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
@@ -65,6 +69,7 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^4.0.0",
     "jest": "^27.5.1"
   }
 }

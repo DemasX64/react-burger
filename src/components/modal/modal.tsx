@@ -36,8 +36,8 @@ const Modal: FC<IModalProps> = (props) => {
 
   return (
     <div className={styles.container} onClick={preventClickOnModal}>
-      <div className={`mt-10 ml-10 mr-10 ${styles.header}`}>
-        <p className={`text ${type === 'string' ? 'text_type_main-large' : 'text_type_digits-default'}`}>{title}</p>
+      <div className={`mt-10 ml-10 mr-10 ${styles.header}`} data-cy="modal-header">
+        <p data-cy="close-modal" className={`text ${type === 'string' ? 'text_type_main-large' : 'text_type_digits-default'}`}>{title}</p>
         <CloseIcon type="primary" onClick={onClick} />
       </div>
       <div className={`${styles.body} ${type === 'number' ? styles.bodyNumber : ''}`}>{children}</div>
