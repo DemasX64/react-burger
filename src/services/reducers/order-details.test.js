@@ -1,3 +1,4 @@
+import { createOrder } from '../../utils/burger-api';
 import reducer, { setOrder, toggleOrderDetails } from './order-details';
 
 const initialState = {
@@ -45,6 +46,37 @@ describe('order details reducer', () => {
       {
         ...initialState,
         order: newOrder,
+      },
+    );
+  });
+  it('should handle createOrder.pending', () => {
+    expect(
+      reducer(initialState, createOrder.pending()),
+    ).toEqual(
+      {
+        ...initialState,
+        createOrderRequest: true,
+      },
+    );
+  });
+  it('should handle createOrder.fulfilled', () => {
+    expect(
+      reducer(initialState, createOrder.fulfilled(newOrder)),
+    ).toEqual(
+      {
+        ...initialState,
+        createOrderSuccess: true,
+        order: newOrder,
+      },
+    );
+  });
+  it('should handle createOrder.rejected', () => {
+    expect(
+      reducer(initialState, createOrder.rejected()),
+    ).toEqual(
+      {
+        ...initialState,
+        createOrderFailed: true,
       },
     );
   });
