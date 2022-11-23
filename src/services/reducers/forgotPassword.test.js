@@ -1,3 +1,4 @@
+import { forgotPassword } from '../../utils/auth-api';
 import reducer, { setEmail } from './forgotPassword';
 
 const initialState = {
@@ -22,6 +23,36 @@ describe('forgot password reducer', () => {
       {
         ...initialState,
         email: newEmail,
+      },
+    );
+  });
+  it('should handle forgotPassword.pending', () => {
+    expect(
+      reducer(initialState, forgotPassword.pending()),
+    ).toEqual(
+      {
+        ...initialState,
+        forgotPasswordPending: true,
+      },
+    );
+  });
+  it('should handle forgotPassword.fulfilled', () => {
+    expect(
+      reducer(initialState, forgotPassword.fulfilled()),
+    ).toEqual(
+      {
+        ...initialState,
+        forgotPasswordSuccess: true,
+      },
+    );
+  });
+  it('should handle forgotPassword.rejected', () => {
+    expect(
+      reducer(initialState, forgotPassword.rejected()),
+    ).toEqual(
+      {
+        ...initialState,
+        forgotPasswordFailed: true,
       },
     );
   });
