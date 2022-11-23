@@ -7,10 +7,6 @@ import {
 import { setCookie } from '../../utils/cookie-service';
 import { getUser } from '../../utils/user-api';
 
-// interface IAuthSliceState {
-//   user:
-// }
-
 const initialState = {
   user: {
     name: '',
@@ -71,8 +67,6 @@ export const authSlice = createSlice({
 
     });
     builder.addCase(updateToken.fulfilled, (state, action) => {
-      // setCookie('accessToken', action.payload.accessToken);
-      // setCookie('refreshToken', action.payload.refreshToken);
       setCookie('accessToken', action.payload.accessToken, { expires: 1200 });
       setCookie('refreshToken', action.payload.refreshToken, null);
     });

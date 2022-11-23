@@ -32,7 +32,7 @@ export const loginSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
-      state.loginRequest = false;
+      state.loginRequest = true;
       state.loginSuccess = false;
       state.loginFailed = false;
     });

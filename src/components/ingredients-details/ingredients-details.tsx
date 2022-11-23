@@ -36,19 +36,19 @@ const IngredientsDetails = () => {
       <ul className={styles.nutritionalValue}>
         <li>
           <p className="text text_type_main-default text_color_inactive">Калории,ккал</p>
-          <p className="text text_type_digits-default text_color_inactive">{calories}</p>
+          <p className="text text_type_digits-default text_color_inactive" data-cy="ingredient-info">{calories}</p>
         </li>
         <li>
           <p className="text text_type_main-default text_color_inactive">Белки, г</p>
-          <p className="text text_type_digits-default text_color_inactive">{proteins}</p>
+          <p className="text text_type_digits-default text_color_inactive" data-cy="ingredient-info">{proteins}</p>
         </li>
         <li>
           <p className="text text_type_main-default text_color_inactive">Жиры, г</p>
-          <p className="text text_type_digits-default text_color_inactive">{fat}</p>
+          <p className="text text_type_digits-default text_color_inactive" data-cy="ingredient-info">{fat}</p>
         </li>
         <li>
           <p className="text text_type_main-default text_color_inactive">Углеводы, г</p>
-          <p className="text text_type_digits-default text_color_inactive">{carbohydrates}</p>
+          <p className="text text_type_digits-default text_color_inactive" data-cy="ingredient-info">{carbohydrates}</p>
         </li>
       </ul>
     </div>

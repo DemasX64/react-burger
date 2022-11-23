@@ -64,7 +64,7 @@ const BurgerConstructor = () => {
         <li className="ml-8">
           {bun.name ? <ConstructorElement isLocked type="top" text={`${name} (верх)`} price={price} thumbnail={image_mobile} /> : <p className="text text_type_main-default">Здесь должна быть булка, но ее нет. Перенесите ее из списка.</p>}
         </li>
-        <li>
+        <li data-cy="constructor">
           <ul ref={refDrop} className={`pr-2 mt-4 mb-4 ${styles.container}`}>
             {ingredients.map(
               (ingredient, index) => (<ConstructorElementContainer key={ingredient.uuid} ingredient={ingredient} index={index} />),
