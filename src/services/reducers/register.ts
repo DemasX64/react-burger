@@ -37,7 +37,7 @@ export const registerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(register.pending, (state) => {
-      state.registerRequest = false;
+      state.registerRequest = true;
       state.registerSuccess = false;
       state.registerFailed = false;
     });
@@ -49,10 +49,10 @@ export const registerSlice = createSlice({
     builder.addCase(register.rejected, (state) => {
       state.registerSuccess = false;
       state.registerFailed = true;
+      state.registerRequest = false;
     });
   },
 });
-
 export const {
   setName,
   setPassword,
